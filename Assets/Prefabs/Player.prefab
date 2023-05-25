@@ -2005,7 +2005,7 @@ GameObject:
   - component: {fileID: 6297956500065044071}
   - component: {fileID: 1122057970360620258}
   - component: {fileID: 7741400931212173755}
-  - component: {fileID: 1516044266532724866}
+  - component: {fileID: 3123351026426378808}
   - component: {fileID: 614510826}
   - component: {fileID: 614510827}
   - component: {fileID: 8349460392475300419}
@@ -2123,7 +2123,7 @@ MonoBehaviour:
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
---- !u!114 &1516044266532724866
+--- !u!114 &3123351026426378808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2132,15 +2132,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7467460421532552729}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Script: {fileID: 11500000, guid: b099afcdac1d4f343befa1ceb68d9908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 5
-  SprintSpeed: 10
-  RotationSmoothTime: 0.12
-  SpeedChangeRate: 10
-  LandingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
-  FootstepAudioClips:
+  moveSpeed: 5
+  sprintSpeed: 10
+  rotationSmoothTime: 0.12
+  speedChangeRate: 10
+  landingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
+  footstepAudioClips:
   - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
   - {fileID: 8300000, guid: 85016e0f2b01da248b9663dd49a161b0, type: 3}
   - {fileID: 8300000, guid: 186de84b3207156479abe98f4958fed0, type: 3}
@@ -2151,22 +2151,22 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 67c8b33e424ccdc4486edf538ab91c5a, type: 3}
   - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
-  FootstepAudioVolume: 0.5
-  JumpHeight: 1.2
-  Gravity: -15
-  JumpTimeout: 0.5
-  FallTimeout: 0.15
-  Grounded: 1
-  GroundedOffset: -0.14
-  GroundedRadius: 0.28
-  GroundLayers:
+  footstepAudioVolume: 0.5
+  jumpHeight: 1.2
+  gravity: -15
+  jumpTimeout: 0.5
+  fallTimeout: 0.15
+  grounded: 1
+  groundedOffset: -0.14
+  groundedRadius: 0.28
+  groundLayers:
     serializedVersion: 2
     m_Bits: 1
-  CinemachineCameraTarget: {fileID: 4260484795398924724}
-  TopClamp: 70
-  BottomClamp: -30
-  CameraAngleOverride: 0
-  LockCameraPosition: 0
+  cinemachineCameraTarget: {fileID: 4260484795398924724}
+  topClamp: 70
+  bottomClamp: -30
+  cameraAngleOverride: 0
+  lockCameraPosition: 0
 --- !u!114 &614510826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2261,6 +2261,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   mainCamera: {fileID: 0}
   playerFollowCamera: {fileID: 0}
+  playerAimingCamera: {fileID: 0}
 --- !u!1 &7509061410670792284
 GameObject:
   m_ObjectHideFlags: 0

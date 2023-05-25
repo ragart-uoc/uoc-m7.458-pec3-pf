@@ -1113,6 +1113,11 @@ PrefabInstance:
       propertyPath: lookObj
       value: 
       objectReference: {fileID: 291320558}
+    - target: {fileID: 3123351026426378808, guid: 749cb69758b5b374990aaa3e759ada9f,
+        type: 3}
+      propertyPath: groundLayers.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5791634264152394595, guid: 749cb69758b5b374990aaa3e759ada9f,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -1196,12 +1201,12 @@ PrefabInstance:
     - target: {fileID: 7974584468179208006, guid: 749cb69758b5b374990aaa3e759ada9f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0626414
+      value: -0.062641405
       objectReference: {fileID: 0}
     - target: {fileID: 7974584468179208006, guid: 749cb69758b5b374990aaa3e759ada9f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0011808332
+      value: -0.0011808333
       objectReference: {fileID: 0}
     - target: {fileID: 8349460392475300419, guid: 749cb69758b5b374990aaa3e759ada9f,
         type: 3}
@@ -1219,7 +1224,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2070925443183424912}
     m_RemovedComponents:
-    - {fileID: 2102891108956081104, guid: 749cb69758b5b374990aaa3e759ada9f, type: 3}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 749cb69758b5b374990aaa3e759ada9f, type: 3}
 --- !u!4 &7737419875198358945 stripped
 Transform:

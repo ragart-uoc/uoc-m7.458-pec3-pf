@@ -42,16 +42,16 @@ namespace PEC3.Entities
         
         #region Character Actions and Animations
 
-            /// <value>Property <c>attacking</c> represents wether the character is attacking or not.</value>
+            /// <value>Property <c>attacking</c> represents whether the character is attacking or not.</value>
             public bool attacking;
             
-            /// <value>Property <c>charging</c> represents wether the character is charging or not.</value>
+            /// <value>Property <c>charging</c> represents whether the character is charging or not.</value>
             public bool charging;
             
-            /// <value>Property <c>chargingFinished</c> represents wether the character has finished charging or not.</value>
+            /// <value>Property <c>chargingFinished</c> represents whether the character has finished charging or not.</value>
             public bool chargingFinished;
             
-            /// <value>Property <c>shooting</c> represents wether the character is shooting or not.</value>
+            /// <value>Property <c>shooting</c> represents whether the character is shooting or not.</value>
             public bool shooting;
 
             /// <value>Property <c>animator</c> represents the character animator.</value>
