@@ -3,7 +3,6 @@
     using UnityEngine.InputSystem;
 #endif
 using StarterAssets;
-using PEC3.Entities;
 
 namespace PEC3.Controllers
 {
@@ -99,6 +98,12 @@ namespace PEC3.Controllers
         /// <value>Property <c>lockCameraPosition</c> represents whether the camera position is locked or not.</value>
         [Tooltip("For locking the camera position on all axis")]
         public bool lockCameraPosition;
+        
+        /// <value>Property <c>sensitivity</c> represents the sensitivity.</value>
+        public float sensitivity = 1f;
+        
+        /// <value>Property <c>_rotateOnMove</c> represents whether the camera rotates on move or not.</value>
+        private bool _rotateOnMove = true;
 
         #region Cinemachine
         
@@ -177,15 +182,9 @@ namespace PEC3.Controllers
         
         /// <value>Property <c>_mainCamera</c> represents the main camera.</value>
         private GameObject _mainCamera;
-        
-        /// <value>Property <c>_character</c> represents the character component.</value>
-        private Character _character;
 
         /// <value>Property <c>Threshold</c> represents the threshold.</value>
         private const float Threshold = 0.01f;
-
-        /// <value>Property <c>_hasCharacter</c> represents whether the character has a character component or not.</value>
-        private bool _hasCharacter;
 
         /// <value>Property <c>_hasAnimator</c> represents whether the character has an animator or not.</value>
         private bool _hasAnimator;
@@ -232,8 +231,6 @@ namespace PEC3.Controllers
             #else
                 Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
             #endif
-            _hasCharacter = TryGetComponent(out _character);
-            Debug.Log(_character.life);
 
             // Assign the animation identifiers
             AssignAnimationIDs();
@@ -249,7 +246,6 @@ namespace PEC3.Controllers
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
-            _hasCharacter = TryGetComponent(out _character);
 
             JumpAndGravity();
             GroundedCheck();
@@ -306,8 +302,8 @@ namespace PEC3.Controllers
                 // Don't multiply mouse input by Time.deltaTime;
                 var deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
+                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * sensitivity;
+                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * sensitivity;
             }
 
             // Clamp our rotations so our values are limited 360 degrees
@@ -370,17 +366,14 @@ namespace PEC3.Controllers
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
 
-                // If player is charging or shooting, rotate towards camera direction
-                if (!_hasCharacter || (!_character.charging && !_character.shooting))
-                {
-                    // Smoothly rotate towards target rotation
-                    var rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation,
-                        ref _rotationVelocity,
-                        rotationSmoothTime);
+                // Smoothly rotate towards target rotation
+                var rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation,
+                    ref _rotationVelocity,
+                    rotationSmoothTime);
 
-                    // Rotate to face input direction relative to camera position
+                // Rotate to face input direction relative to camera position
+                if (_rotateOnMove)
                     transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-                }
             }
             
             var targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
@@ -523,6 +516,24 @@ namespace PEC3.Controllers
             {
                 AudioSource.PlayClipAtPoint(landingAudioClip, transform.TransformPoint(_controller.center), footstepAudioVolume);
             }
+        }
+        
+        /// <summary>
+        /// Method <c>SetSensitivity</c> sets the sensitivity.
+        /// </summary>
+        /// <param name="newSensitivity">The new sensitivity.</param>
+        public void SetSensitivity(float newSensitivity)
+        {
+            sensitivity = newSensitivity;
+        }
+        
+        /// <summary>
+        /// Method <c>SetRotateOnMove</c> sets the rotate on move.
+        /// </summary>
+        /// <param name="rotateOnMove"></param>
+        public void SetRotateOnMove(bool rotateOnMove)
+        {
+            _rotateOnMove = rotateOnMove;
         }
     }
 }

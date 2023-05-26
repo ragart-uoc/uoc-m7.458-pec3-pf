@@ -5,16 +5,20 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
+  - CollisionInner
+  - CollisionOuter
+  - Enemy
+  - Item
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Terrain
   - Water
   - UI
   - Characters
-  - 
-  - 
+  - Items
+  - Projectiles
   - 
   - 
   - 

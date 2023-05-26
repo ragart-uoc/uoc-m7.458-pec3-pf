@@ -51,6 +51,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Aim",
+                    "type": "PassThrough",
+                    "id": "0d204e8d-269e-4d51-a7b8-7c084666c500",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Shoot",
                     "type": "Value",
                     "id": "f1047a9b-64f6-4b01-9650-69bec21dd721",
@@ -240,7 +249,7 @@
                 {
                     "name": "",
                     "id": "99255bbf-1f31-41f8-a00f-9961c825570e",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -278,6 +287,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eadbe587-e505-453b-a0a5-470c6785f094",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

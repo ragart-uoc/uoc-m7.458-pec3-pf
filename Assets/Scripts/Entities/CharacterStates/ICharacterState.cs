@@ -1,5 +1,4 @@
-using System.Collections;
-using UnityEngine.InputSystem;
+using UnityEngine;
 
 namespace PEC3.Entities.CharacterStates
 {
@@ -22,17 +21,60 @@ namespace PEC3.Entities.CharacterStates
         /// Method <c>InputAttack</c> invokes the state OnAttack method.
         /// </summary>
         /// <param name="value">The input value.</param>
-        void InputAttack(InputValue value);
+        void InputAttack(bool value);
+        
+        /// <summary>
+        /// Method <c>InputAim</c> invokes the state OnAim method.
+        /// </summary>
+        /// <param name="value"></param>
+        void InputAim(bool value);
 
         /// <summary>
         /// Method <c>InputShoot</c> invokes the state OnShoot method.
         /// </summary>
         /// <param name="value">The input value.</param>
-        void InputShoot(InputValue value);
-
+        void InputShoot(bool value);
+        
         /// <summary>
-        /// Method <c>Shoot</c> is the state Shoot method.
+        /// Method <c>HandleCollisionEnter</c> invokes the state OnCollisionEnter method.
         /// </summary>
-        IEnumerator Shoot();
+        /// <param name="col">The collision.</param>
+        /// <param name="tag">The tag of the game object containing the collider.</param>
+        void HandleCollisionEnter(Collision col, string tag);
+        
+        /// <summary>
+        /// Method <c>HandleCollisionStay</c> invokes the state OnCollisionStay method.
+        /// </summary>
+        /// <param name="col">The collision.</param>
+        /// <param name="tag">The tag of the game object containing the collider.</param>
+        void HandleCollisionStay(Collision col, string tag);
+        
+        /// <summary>
+        /// Method <c>HandleCollisionExit</c> invokes the state OnCollisionExit method.
+        /// </summary>
+        /// <param name="col">The collision.</param>
+        /// <param name="tag">The tag of the game object containing the collider.</param>
+        void HandleCollisionExit(Collision col, string tag);
+        
+        /// <summary>
+        /// Method <c>HandleTriggerEnter</c> invokes the state OnTriggerEnter method.
+        /// </summary>
+        /// <param name="col">The other collider.</param>
+        /// <param name="tag">The tag of the game object containing the collider.</param>
+        void HandleTriggerEnter(Collider col, string tag);
+        
+        /// <summary>
+        /// Method <c>HandleTriggerStay</c> invokes the state OnTriggerStay method.
+        /// </summary>
+        /// <param name="col">The other collider.</param>
+        /// <param name="tag">The tag of the game object containing the collider.</param>
+        void HandleTriggerStay(Collider col, string tag);
+        
+        /// <summary>
+        /// Method <c>HandleTriggerExit</c> invokes the state OnTriggerExit method.
+        /// </summary>
+        /// <param name="col">The other collider.</param>
+        /// <param name="tag">The tag of the game object containing the collider.</param>
+        void HandleTriggerExit(Collider col, string tag);
     }
 }
