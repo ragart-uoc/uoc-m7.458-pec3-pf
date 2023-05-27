@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using Cinemachine;
@@ -16,8 +14,8 @@ namespace PEC3.Entities.CharacterStates
         /// <value>Property <c>Character</c> represents the character.</value>
         private readonly Character _character;
         
-        /// <value>Property <c>_itemColliderList</c> represents the list of items colliding with the player.</value>
-        private List<Collider> _itemColliderList = new List<Collider>();
+        /// <value>Property <c>MouseWorldPosition</c> represents the mouse world position.</value>
+        private Vector3 _mouseWorldPosition;
         
         /// <summary>
         /// Class constructor <c>Player</c> initializes the class.
@@ -46,6 +44,10 @@ namespace PEC3.Entities.CharacterStates
             if (_character.playerAimingCamera == null)
                 _character.playerAimingCamera = GameObject.Find("PlayerAimingCamera").GetComponent<CinemachineVirtualCamera>();
             _character.playerAimingCamera.Follow = _character.playerCameraRoot;
+            
+            // Reset the animator
+            _character.animator.Rebind();
+            _character.animator.Update(0f);
         }
         
         /// <summary>
@@ -54,13 +56,17 @@ namespace PEC3.Entities.CharacterStates
         public void UpdateState()
         {
             // Raycast to the mouse position
-            var mouseWorldPosition = Vector3.zero;
+            _mouseWorldPosition = Vector3.zero;
             var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
             var ray = _character.mainCamera.ScreenPointToRay(screenCenterPoint);
             if (Physics.Raycast(ray, out var hit, 999f, _character.aimLayerMask))
             {
-                mouseWorldPosition = hit.point;
+                _mouseWorldPosition = hit.point;
             }
+            
+            // Check if the character is dead
+            if (_character.dead)
+                return;
             
             // Check if the player is aiming
             if (_character.aiming)
@@ -77,22 +83,10 @@ namespace PEC3.Entities.CharacterStates
                 // Make the character look at the mouse position
                 var characterTransform = _character.transform;
                 var characterPosition = characterTransform.position;
-                var worldAimTarget = mouseWorldPosition;
+                var worldAimTarget = _mouseWorldPosition;
                 worldAimTarget.y = characterPosition.y;
                 var aimDirection = (worldAimTarget - characterPosition).normalized;
                 characterTransform.forward = Vector3.Lerp(characterTransform.forward, aimDirection, Time.deltaTime * 20f);
-                
-                // Check if the charging animation is finished
-                if (_character.chargingFinished && _character.shooting && !_character.shootingStarted)
-                {
-                    var projectileSpawnPointPosition = _character.projectileSpawnPoint.position;
-                    var projectileAimDirection = (mouseWorldPosition - projectileSpawnPointPosition).normalized;
-                    _character.StartCoroutine(Shoot(projectileSpawnPointPosition, projectileAimDirection));
-                }
-                else if (_character.shooting)
-                {
-                    _character.shooting = false;
-                }
             }
             else
             {
@@ -105,24 +99,169 @@ namespace PEC3.Entities.CharacterStates
                 _character.controller.SetRotateOnMove(true);
                 // Reset the charging animation
                 _character.animator.SetBool(_character.AnimatorCharging, false);
-                
                 // Unset the charging finished flag
                 _character.chargingFinished = false;
-
-                // Check if the player is attacking
-                if (_character.attacking)
-                {
-                    // Start the attacking animation
-                    _character.animator.SetBool(_character.AnimatorAttacking, true);
-                    _character.attacking = false;
-                }
-                else
-                {
-                    // Reset the attacking animation
-                    _character.animator.SetBool(_character.AnimatorAttacking, false);
-                }
             }
         }
+        
+        #region Actions
+
+            /// <summary>
+            /// Method <c>Move</c> moves the character.
+            /// </summary>
+            public void Move()
+            {
+                // Player movement is handled by the character controller
+            }
+
+            /// <summary>
+            /// Method <c>Wander</c> makes the character wander.
+            /// </summary>
+            public void Wander()
+            {
+                // Players don't wander
+            }
+
+            /// <summary>
+            /// Method <c>Flee</c> makes the character flee.
+            /// </summary>
+            public void Flee(Transform target)
+            {
+                // Players don't flee
+            }
+
+            /// <summary>
+            /// Method <c>Chase</c> makes the character chase a target.
+            /// </summary>
+            public void Chase(Transform target)
+            {
+                // Players don't chase
+            }
+            
+            /// <summary>
+            /// Method <c>Attack</c> attacks.
+            /// </summary>
+            public IEnumerator Attack()
+            {
+                // Set the previous attack time
+                _character.lastAttackTime = Time.time;
+                // Start the attacking animation
+                _character.animator.SetTrigger(_character.AnimatorAttacking);
+                // Unset the flags
+                _character.attacking = false;
+                yield break;
+            }
+            
+            /// <summary>
+            /// Method <c>AttackFinished</c> is called when the attack animation finishes.
+            /// </summary>
+            public void AttackFinished()
+            {
+                // Check if there is a target
+                var characterTransform = _character.transform;
+                var characterPosition = characterTransform.position;
+                var position = new Vector3(characterPosition.x, characterPosition.y + 1f, characterPosition.z);
+                var ray = new Ray(position, characterTransform.forward);
+                if (!Physics.Raycast(ray, out var hit, _character.attackDistance))
+                    return;
+                // Check if the collider is a target
+                if (!hit.transform.CompareTag("Enemy"))
+                    return;
+                // Get the character
+                var target = hit.transform.GetComponent<Character>();
+                // Check if the enemy is dead
+                if (target == null || target.dead)
+                    return;
+                // Damage the target
+                target.TakeDamage(_character.meleeDamage);
+                // Aggro the target
+                target.forcedTarget = _character.transform;
+            }
+
+            /// <summary>
+            /// Method <c>Shoot</c> shoots the projectile.
+            /// </summary>
+            /// <param name="projectileSpawnPointPosition">The projectile spawn point position.</param>
+            /// <param name="projectileAimDirection">The projectile aim direction.</param>
+            public IEnumerator Shoot(Vector3 projectileSpawnPointPosition, Vector3 projectileAimDirection)
+            {
+                // Set the previous attack time
+                _character.lastShootTime = Time.time;
+                // Instantiate the projectile
+                Object.Instantiate(
+                    _character.projectilePrefab,
+                    projectileSpawnPointPosition,
+                    Quaternion.LookRotation(projectileAimDirection, Vector3.up)
+                );
+                // Start the shooting animation
+                _character.animator.SetTrigger(_character.AnimatorShooting);
+                // Unset the flags
+                _character.shooting = false;
+                yield break;
+            }
+        
+            /// <summary>
+            /// Method <c>TakeDamage</c> takes damage.
+            /// </summary>
+            /// <param name="damage">The damage received.</param>
+            public IEnumerator TakeDamage(float damage)
+            {
+                // Check if the character is already being hit or is dead
+                if (_character.hit || _character.dead)
+                    yield break;
+                // Set the flags
+                _character.hit = true;
+                // Take damage
+                _character.health -= damage * 0.1f;
+                _character.shield -= damage * 0.9f;
+                if (_character.shield < 0.0f)
+                {
+                    _character.health += _character.shield;
+                    _character.shield = 0.0f;
+                }
+                // Start the hit animation
+                _character.animator.SetTrigger(_character.AnimatorHit);
+                // Unset the flags
+                _character.hit = false;
+                // Check if the character is dead
+                if (_character.health <= 0)
+                {
+                    _character.StartCoroutine(Die());
+                }
+            }
+
+            /// <summary>
+            /// Method <c>Die</c> makes the character die.
+            /// </summary>
+            public IEnumerator Die()
+            {
+                // Check if the character is already dead
+                if (_character.dead)
+                    yield break;
+                // Set the dead flag
+                _character.dead = true;
+                // Start the dead animation
+                _character.animator.SetBool(_character.AnimatorDead, true);
+            }
+            
+            /// <summary>
+            /// Method <c>DeadFinished</c> is called when the dead animation finishes.
+            /// </summary>
+            public IEnumerator DeadFinished()
+            {
+                _character.Enemify();
+                yield break;
+            }
+
+            /// <summary>
+            /// Method <c>DropItem</c> drops an item.
+            /// </summary>
+            public void DropItem()
+            {
+                // Allies don't drop items (at least for now)
+            }
+        
+        #endregion
         
         #region Input
         
@@ -131,7 +270,13 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public void InputAttack(bool newAttackState)
             {
-                _character.attacking = newAttackState;
+                if (!newAttackState
+                        || _character.aiming
+                        || _character.attacking
+                        || Time.time < _character.lastAttackTime + _character.attackRate)
+                    return;
+                _character.attacking = true;
+                _character.StartCoroutine(Attack());
             }
             
             /// <summary>
@@ -157,55 +302,20 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public void InputShoot(bool newShootState)
             {
-                _character.shooting = newShootState;
+                if (!newShootState
+                    || !_character.aiming
+                    || !_character.chargingFinished
+                    || _character.shooting
+                    || Time.time < _character.lastShootTime + _character.attackRate)
+                    return;
+                _character.shooting = true;
+                var projectileSpawnPointPosition = _character.projectileSpawnPoint.position;
+                var projectileAimDirection = (_mouseWorldPosition - projectileSpawnPointPosition).normalized;
+                _character.StartCoroutine(Shoot(projectileSpawnPointPosition, projectileAimDirection));
             }
         
         #endregion
 
-        /// <summary>
-        /// Method <c>Shoot</c> shoots the projectile.
-        /// </summary>
-        private IEnumerator Shoot(Vector3 projectileSpawnPointPosition, Vector3 projectileAimDirection)
-        {
-            // Set the shooting started flag
-            _character.shootingStarted = true;
-            // Instantiate the projectile
-            Object.Instantiate(
-                _character.projectilePrefab,
-                projectileSpawnPointPosition,
-                Quaternion.LookRotation(projectileAimDirection, Vector3.up)
-            );
-            // Start the shooting animation
-            _character.animator.SetBool(_character.AnimatorShooting, true);
-            // Wait for the shooting animation to finish
-            while (!_character.shootingFinished)
-                yield return null;
-            // Reset the shooting animation
-            _character.animator.SetBool(_character.AnimatorShooting, false);
-            // Unset the flags
-            _character.shooting = false;
-            _character.shootingStarted = false;
-            _character.shootingFinished = false;
-        }
-
-        /// <summary>
-        /// Method <c>LerpRigWeight</c> lerps the rig weight.
-        /// </summary>
-        /// <param name="aim">The rig constraint.</param>
-        /// <param name="initialWeight">The initial weight.</param>
-        /// <param name="finalWeight">The final weight.</param>
-        /// <param name="duration">The duration of the lerp.</param>
-        private IEnumerator LerpRigWeight(IRigConstraint aim, float initialWeight, float finalWeight, float duration)
-        {
-            var elapsedTime = 0f;
-            while (elapsedTime < duration)
-            {
-                aim.weight = Mathf.Lerp(initialWeight, finalWeight, elapsedTime / duration);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-        }
-        
         #region Collisions
 
             /// <summary>
@@ -215,8 +325,6 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="tag">The tag of the game object containing the collider.</param>
             public void HandleCollisionEnter(Collision col, string tag)
             {
-                if (col.gameObject.CompareTag("Item"))
-                    Debug.Log($"[PlayerAimingState] Enter collision on {tag}");
             }
 
             /// <summary>
@@ -226,8 +334,6 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="tag">The tag of the game object containing the collider.</param>
             public void HandleCollisionStay(Collision col, string tag)
             {
-                if (col.gameObject.CompareTag("Item"))
-                    Debug.Log($"[PlayerAimingState] Stays collision on {tag}");
             }
 
             /// <summary>
@@ -237,8 +343,6 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="tag">The tag of the game object containing the collider.</param>
             public void HandleCollisionExit(Collision col, string tag)
             {
-                if (col.gameObject.CompareTag("Item"))
-                    Debug.Log($"[PlayerAimingState] Exit collision on {tag}");
             }
 
             /// <summary>
@@ -248,13 +352,10 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="tag">The tag of the game object containing the collider.</param>
             public void HandleTriggerEnter(Collider col, string tag)
             {
-                if (col.gameObject.CompareTag("Item"))
-                    Debug.Log($"[PlayerAimingState] Enter trigger on {tag}");
-                
                 if (col.gameObject.CompareTag("Item") && tag.Equals("CollisionInner"))
                 {
-                    _itemColliderList.Add(col);
-                    LookAtClosestItem();
+                    _character.itemColliderList.Add(col);
+                    _character.LookAtClosestItem();
                 }
             }
             
@@ -265,8 +366,6 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="tag">The tag of the game object containing the collider.</param>
             public void HandleTriggerStay(Collider col, string tag)
             {
-                if (col.gameObject.CompareTag("Item"))
-                    Debug.Log($"[PlayerAimingState] Stays trigger on {tag}");
             }
             
             /// <summary>
@@ -276,74 +375,33 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="tag">The tag of the game object containing the collider.</param>
             public void HandleTriggerExit(Collider col, string tag)
             {
-                if (col.gameObject.CompareTag("Item"))
-                    Debug.Log($"[PlayerAimingState] Exit trigger on {tag}");
-                
                 if (col.gameObject.CompareTag("Item") && tag.Equals("CollisionInner"))
                 {
-                    _itemColliderList.Remove(col);
-                    LookAtClosestItem();
+                    _character.itemColliderList.Remove(col);
+                    _character.LookAtClosestItem();
                 }
             }
+        
+        #endregion
+        
+        #region Animation Rigging
             
             /// <summary>
-            /// Method <c>GetClosestItemCollider</c> returns the closest item collider.
+            /// Method <c>LerpRigWeight</c> lerps the rig weight.
             /// </summary>
-            private (Transform, List<Collider>) GetClosestCollider(List<Collider> colliderList)
+            /// <param name="aim">The rig constraint.</param>
+            /// <param name="initialWeight">The initial weight.</param>
+            /// <param name="finalWeight">The final weight.</param>
+            /// <param name="duration">The duration of the lerp.</param>
+            private IEnumerator LerpRigWeight(IRigConstraint aim, float initialWeight, float finalWeight, float duration)
             {
-                // If the list is null or empty, return null
-                if (colliderList == null || colliderList.Count == 0)
-                    return (null, new List<Collider>());
-                
-                // Get the first collider in list which is not null or inactive
-                var closestCollider = colliderList.FirstOrDefault(col => col != null && col.gameObject.activeSelf);
-                if (!closestCollider)
-                    return (null, new List<Collider>());
-                
-                // Get the distance between the character and the closest collider
-                var closestDistance = Vector3.Distance(_character.transform.position, closestCollider.transform.position);
-            
-                // Iterate through the list of colliders
-                var tempColliderList = new List<Collider>(colliderList);
-                foreach (var col in colliderList)
+                var elapsedTime = 0f;
+                while (elapsedTime < duration)
                 {
-                    // If the collider is null or inactive, remove it from the list
-                    if (!col || !col.gameObject.activeSelf)
-                    {
-                        tempColliderList.Remove(col);
-                        continue;
-                    }
-                    // Get the distance between the character and the collider
-                    var distance = Vector3.Distance(_character.transform.position, col.transform.position);
-                    // If the distance is lesser than the closest distance, update the closest distance and collider
-                    if (!(distance < closestDistance))
-                        continue;
-                    closestDistance = distance;
-                    closestCollider = col;
+                    aim.weight = Mathf.Lerp(initialWeight, finalWeight, elapsedTime / duration);
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
                 }
-                return (closestCollider.transform, tempColliderList);
-            }
-            
-            /// <summary>
-            /// Method <c>LookAtClosestItem</c> makes the character look at the closest item.
-            /// </summary>
-            private void LookAtClosestItem()
-            {
-                // Get the closest collider transform
-                var (closestItem, updatedItemList) = GetClosestCollider(_itemColliderList);
-                // Update the list of colliders
-                _itemColliderList = updatedItemList;
-                // Update the aim rig
-                var sources = new WeightedTransformArray(0);
-                if (closestItem != null)
-                {
-                    sources.Add(new WeightedTransform(closestItem, 1));
-                }
-                _character.aimHeadRig.data.sourceObjects = sources;
-                _character.aimUpperBodyRig.data.sourceObjects = sources;
-                _character.animator.enabled = false;
-                _character.rigBuilder.Build();
-                _character.animator.enabled = true;
             }
         
         #endregion

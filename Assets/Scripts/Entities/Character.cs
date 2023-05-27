@@ -1,9 +1,11 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
 using Cinemachine;
+using StarterAssets;
 using PEC3.Controllers;
 using PEC3.Entities.CharacterStates;
 
@@ -36,43 +38,123 @@ namespace PEC3.Entities
             
         #endregion
         
-        /// <value>Property <c>controller</c> represents the custom third person controller.</value>
-        public CustomThirdPersonController controller;
+        #region Components
+        
+            /// <value>Property <c>controller</c> represents the custom third person controller.</value>
+            [Header("Components")]
+            public CustomThirdPersonController controller;
 
-        /// <value>Property <c>animator</c> represents the character animator.</value>
-        public Animator animator;
+            /// <value>Property <c>animator</c> represents the character animator.</value>
+            public Animator animator;
+            
+            /// <value>Property <c>agent</c> represents the character nav mesh agent.</value>
+            public NavMeshAgent agent;
+        
+        #endregion
         
         #region Character Settings
 
-            /// <value>Property <c>life</c> represents the life of the character.</value>
+            /// <value>Property <c>health</c> represents the health of the character.</value>
             [Header("Character Settings")]
-            public float life = 100f;
+            public float health = 100f;
             
             /// <value>Property <c>shield</c> represents the shield of the character.</value>
-            public float shield = 100f;
+            public float shield;
+            
+            /// <value>Property <c>damage</c> represents the damage of the character.</value>
+            public float meleeDamage = 10f;
+            
+            /// <value>Property <c>attackRate</c> represents the attack rate.</value>
+            public float attackRate = 1f;
+            
+            /// <value>Property <c>targetDistance</c> represents the minimum distance to attack.</value>
+            public float attackDistance = 1f;
+            
+            /// <value>Property <c>damageTakenMultiplier</c> represents the damage taken multiplier.</value>
+            public float damageTakenMultiplier = 1f;
+            
+            /// <value>Property <c>lastAttackTime</c> represents the last attack time.</value>
+            [HideInInspector]
+            public float lastAttackTime;
+            
+            /// <value>Property <c>lastShootTime</c> represents the last shoot time.</value>
+            [HideInInspector]
+            public float lastShootTime;
+            
+            /// <value>Property <c>moveSpeed</c> represents the move speed.</value>
+            public float moveSpeed = 5f;
+            
+            /// <value>Property <c>sprintSpeed</c> represents the sprint speed.</value>
+            public float sprintSpeed = 10f;
+            
+            /// <value>Property <c>wanderRadius</c> represents the wander radius.</value>
+            public float wanderRadius = 10f;
+            
+            /// <value>Property <c>wanderTime</c> represents the wander time.</value>
+            public float wanderTime = 5f;
+            
+            /// <value>Property <c>fleeTime</c> represents the flee time.</value>
+            public float fleeTime = 2f;
+
+        #endregion
+        
+        #region Drop
+
+            /// <value>Property <c>mandatoryDrop</c> represents the mandatory drop of the enemy.</value>
+            [Header("Item Drop")]
+            public GameObject mandatoryDrop;
+                
+            /// <value>Property <c>optionalDrops</c> represents the optional drops of the enemy.</value>
+            public GameObject[] optionalDrops;
             
         #endregion
 
         #region Actions
 
-        /// <value>Property <c>attacking</c> represents whether the character is attacking or not.</value>
-        [Header("Character Actions")]
-        public bool attacking;
+            /// <value>Property <c>attacking</c> represents whether the character is attacking or not.</value>
+            [Header("Character Actions")]
+            public bool attacking;
 
-        /// <value>Property <c>aiming</c> represents whether the character is aiming or not.</value>
-        public bool aiming;
+            /// <value>Property <c>aiming</c> represents whether the character is aiming or not.</value>
+            public bool aiming;
+                    
+            /// <value>Property <c>chargingFinished</c> represents whether the animation for charging has finished or not.</value>
+            public bool chargingFinished;
+                    
+            /// <value>Property <c>shooting</c> represents whether the character is shooting or not.</value>
+            public bool shooting;
+
+            /// <value>Property <c>hit</c> represents whether the animation for being hit has started or not.</value>
+            public bool hit;
+
+            /// <value>Property <c>dead</c> represents whether the character is dead or not.</value>
+            public bool dead;
+
+        #endregion
+        
+        #region Wandering and Fleeing
             
-        /// <value>Property <c>chargingFinished</c> represents whether the animation for charging has finished or not.</value>
-        public bool chargingFinished;
+            /// <value>Property <c>wanderTimer</c> represents the wander timer.</value>
+            public float wanderTimer;
             
-        /// <value>Property <c>shooting</c> represents whether the character is shooting or not.</value>
-        public bool shooting;
+            /// <value>Property <c>fleeTimer</c> represents the flee timer.</value>
+            public float fleeTimer;
+        
+        #endregion
+        
+        #region Targetting
+        
+            /// <value>Property <c>targetColliderList</c> represents the list of targets colliding with the player.</value>
+            public List<Collider> targetColliderList = new List<Collider>();
+        
+            /// <value>Property <c>itemColliderList</c> represents the list of items colliding with the player.</value>
+            public List<Collider> itemColliderList = new List<Collider>();
+        
+            /// <value>Property <c>target</c> represents the current target.</value>
+            public Transform target;
             
-        /// <value>Property <c>shootingStarted</c> represents whether the animation for shooting has started or not.</value>
-        public bool shootingStarted;
-            
-        /// <value>Property <c>shootingFinished</c> represents whether the animation for shooting has finished or not.</value>
-        public bool shootingFinished;
+            /// <value>Property <c>forcedTarget</c> represents the forced target.</value>
+            public Transform forcedTarget;
 
         #endregion
         
@@ -183,6 +265,9 @@ namespace PEC3.Entities
             
             // Invoke the current state Start method
             CurrentState.StartState();
+            
+            // Set the wander timer
+            wanderTimer = wanderTime;
         }
 
         /// <summary>
@@ -194,6 +279,16 @@ namespace PEC3.Entities
             CurrentState.UpdateState();
         }
         
+        /// <summary>
+        /// Method <c>TakeDamage</c> is called when the character takes damage.
+        /// </summary>
+        /// <param name="damage"></param>
+        public void TakeDamage(float damage)
+        {
+            // Invoke the current state TakeDamage method
+            StartCoroutine(CurrentState.TakeDamage(damage * damageTakenMultiplier));
+        }
+
         #region Input Action Callbacks
 
             /// <summary>
@@ -242,7 +337,6 @@ namespace PEC3.Entities
             /// <param name="animationEvent">The animation event.</param>
             private void OnShootComplete(AnimationEvent animationEvent)
             {
-                shootingFinished = true;
             }
             
             /// <summary>
@@ -251,6 +345,7 @@ namespace PEC3.Entities
             /// <param name="animationEvent">The animation event.</param>
             private void OnAttackComplete(AnimationEvent animationEvent)
             {
+                CurrentState.AttackFinished();
             }
             
             /// <summary>
@@ -267,72 +362,235 @@ namespace PEC3.Entities
             /// <param name="animationEvent"></param>
             private void OnDeadComplete(AnimationEvent animationEvent)
             {
+                StartCoroutine(CurrentState.DeadFinished());
             }
         
         #endregion
         
         #region Collisions
 
-        /// <summary>
-        /// Method <c>OnCollisionEnter</c> is called when the character enters a collision.
-        /// </summary>
-        /// <param name="col">The collision.</param>
-        private void OnCollisionEnter(Collision col)
-        {
-            if (col.transform.parent != transform)
-                CurrentState.HandleCollisionEnter(col, transform.tag);
-        }
-        
-        /// <summary>
-        /// Method <c>OnCollisionStay</c> is called when the character stays in a collision.
-        /// </summary>
-        /// <param name="col">The collision.</param>
-        private void OnCollisionStay(Collision col)
-        {
-            if (col.transform.parent != transform)
-                CurrentState.HandleCollisionStay(col, transform.tag);
-        }
-        
-        /// <summary>
-        /// Method <c>OnCollisionExit</c> is called when the character exits a collision.
-        /// </summary>
-        /// <param name="col">The collision.</param>
-        private void OnCollisionExit(Collision col)
-        {
-            if (col.transform.parent != transform)
-                CurrentState.HandleCollisionExit(col, transform.tag);
-        }
-        
-        /// <summary>
-        /// Method <c>OnTriggerEnter</c> is called when the character enters a trigger.
-        /// </summary>
-        /// <param name="col">The other collider.</param>
-        private void OnTriggerEnter(Collider col)
-        {
-            if (col.transform.parent != transform)
-                CurrentState.HandleTriggerEnter(col, transform.tag);
-        }
-        
-        /// <summary>
-        /// Method <c>OnTriggerStay</c> is called when the character stays in a trigger.
-        /// </summary>
-        /// <param name="col">The other collider.</param>
-        private void OnTriggerStay(Collider col)
-        {
-            if (col.transform.parent != transform)
-                CurrentState.HandleTriggerStay(col, transform.tag);
-        }
-        
-        /// <summary>
-        /// Method <c>OnTriggerExit</c> is called when the character exits a trigger.
-        /// </summary>
-        /// <param name="col">The other collider.</param>
-        private void OnTriggerExit(Collider col)
-        {
-            if (col.transform.parent != transform)
-                CurrentState.HandleTriggerExit(col, transform.tag);
-        }
+            /// <summary>
+            /// Method <c>OnCollisionEnter</c> is called when the character enters a collision.
+            /// </summary>
+            /// <param name="col">The collision.</param>
+            private void OnCollisionEnter(Collision col)
+            {
+                if (col.transform.parent != transform)
+                    CurrentState.HandleCollisionEnter(col, transform.tag);
+            }
+            
+            /// <summary>
+            /// Method <c>OnCollisionStay</c> is called when the character stays in a collision.
+            /// </summary>
+            /// <param name="col">The collision.</param>
+            private void OnCollisionStay(Collision col)
+            {
+                if (col.transform.parent != transform)
+                    CurrentState.HandleCollisionStay(col, transform.tag);
+            }
+            
+            /// <summary>
+            /// Method <c>OnCollisionExit</c> is called when the character exits a collision.
+            /// </summary>
+            /// <param name="col">The collision.</param>
+            private void OnCollisionExit(Collision col)
+            {
+                if (col.transform.parent != transform)
+                    CurrentState.HandleCollisionExit(col, transform.tag);
+            }
+            
+            /// <summary>
+            /// Method <c>OnTriggerEnter</c> is called when the character enters a trigger.
+            /// </summary>
+            /// <param name="col">The other collider.</param>
+            private void OnTriggerEnter(Collider col)
+            {
+                if (col.transform.parent != transform)
+                    CurrentState.HandleTriggerEnter(col, transform.tag);
+            }
+            
+            /// <summary>
+            /// Method <c>OnTriggerStay</c> is called when the character stays in a trigger.
+            /// </summary>
+            /// <param name="col">The other collider.</param>
+            private void OnTriggerStay(Collider col)
+            {
+                if (col.transform.parent != transform)
+                    CurrentState.HandleTriggerStay(col, transform.tag);
+            }
+            
+            /// <summary>
+            /// Method <c>OnTriggerExit</c> is called when the character exits a trigger.
+            /// </summary>
+            /// <param name="col">The other collider.</param>
+            private void OnTriggerExit(Collider col)
+            {
+                if (col.transform.parent != transform)
+                    CurrentState.HandleTriggerExit(col, transform.tag);
+            }
 
         #endregion
+        
+        #region Targetting
+        
+            /// <summary>
+            /// Method <c>GetClosestCollider</c> returns the closest collider from a list of colliders.
+            /// </summary>
+            /// <param name="colliderList">The list of colliders.</param>
+            private (Transform, List<Collider>) GetClosestCollider(List<Collider> colliderList)
+            {
+                // If the list is null or empty, return null
+                if (colliderList == null || colliderList.Count == 0)
+                    return (null, new List<Collider>());
+                    
+                // Get the first collider in list which is not null or inactive
+                var closestCollider = colliderList.FirstOrDefault(col => col != null && col.gameObject.activeSelf);
+                if (!closestCollider)
+                    return (null, new List<Collider>());
+                    
+                // Get the distance between the character and the closest collider
+                var closestDistance = Vector3.Distance(transform.position, closestCollider.transform.position);
+                
+                // Iterate through the list of colliders
+                var tempColliderList = new List<Collider>(colliderList);
+                foreach (var col in colliderList)
+                {
+                    // If the collider is null or inactive, remove it from the list
+                    if (!col || !col.gameObject.activeSelf)
+                    {
+                        tempColliderList.Remove(col);
+                        continue;
+                    }
+                    // Get the distance between the character and the collider
+                    var distance = Vector3.Distance(transform.position, col.transform.position);
+                    // If the distance is lesser than the closest distance, update the closest distance and collider
+                    if (!(distance < closestDistance))
+                        continue;
+                    closestDistance = distance;
+                    closestCollider = col;
+                }
+                return (closestCollider.transform, tempColliderList);
+            }
+
+            /// <summary>
+            /// Method <c>SetTarget</c> sets the target.
+            /// </summary>
+            public void SetTarget()
+            {
+                // Loop the list of targets and remove the null, inactive or dead characters
+                var tempTargetColliderList = new List<Collider>(targetColliderList);
+                foreach (var col in targetColliderList.Where(col => !col || !col.gameObject.activeSelf || col.transform.GetComponent<Character>().dead))
+                {
+                    tempTargetColliderList.Remove(col);
+                }
+                targetColliderList = tempTargetColliderList;
+                // Get the closest collider transform
+                var (closestTarget, updatedTargetList) = GetClosestCollider(targetColliderList);
+                // Update the list of colliders
+                targetColliderList = updatedTargetList;
+                // Set the target
+                target = closestTarget;
+            }
+                
+            /// <summary>
+            /// Method <c>LookAtClosestItem</c> makes the character look at the closest item.
+            /// </summary>
+            public void LookAtClosestItem()
+            {
+                // Get the closest collider transform
+                var (closestItem, updatedItemList) = GetClosestCollider(itemColliderList);
+                // Update the list of colliders
+                itemColliderList = updatedItemList;
+                // Update the aim rig
+                var sources = new WeightedTransformArray(0);
+                if (closestItem != null)
+                {
+                    sources.Add(new WeightedTransform(closestItem, 1));
+                }
+                aimHeadRig.data.sourceObjects = sources;
+                aimUpperBodyRig.data.sourceObjects = sources;
+                animator.enabled = false;
+                rigBuilder.Build();
+                animator.enabled = true;
+            }
+            
+        #endregion
+
+        /// <summary>
+        /// Method <c>RandomNavSphere</c> returns a random position on the navmesh.
+        /// </summary>
+        /// <param name="origin">The origin position.</param>
+        /// <param name="distance">The distance from the origin position.</param>
+        /// <param name="layermask">The layermask the navmesh is on.</param>
+        /// <returns></returns>
+        public Vector3 RandomNavSphere(Vector3 origin, float distance, int layermask)
+        {
+            var randomDirection = Random.insideUnitSphere * distance;
+            randomDirection += origin;
+            NavMesh.SamplePosition(randomDirection, out var navHit, distance, layermask);
+            return navHit.position;
+        }
+
+        public void ResetAllProperties()
+        {
+            
+        }
+
+        public void Enemify()
+        {
+            // Reset the properties
+            // TODO: Some of these properties are hardcoded. They should be set as public properties.
+            // TODO: Also, there are other properties that are not reset. They should be reset as well.
+            controller = null;
+            health = 100f;
+            shield = 0;
+            dead = false;
+            
+            // Change the tag and type
+            tag = "Enemy";
+            characterType = CharacterType.Enemy;
+            
+            // Change the state
+            CurrentState = _characterStates[characterType];
+
+            // If the character is a player, remove the additional complements
+            if (CurrentState == _characterStates[CharacterType.Player])
+            {
+                var characterController = GetComponent<CharacterController>();
+                if (characterController)
+                    Destroy(characterController);
+                
+                var customThirdPersonController = GetComponent<CustomThirdPersonController>();
+                if (customThirdPersonController)
+                    Destroy(customThirdPersonController);
+                
+                var playerInput = GetComponent<PlayerInput>();
+                if (playerInput)
+                    Destroy(playerInput);
+                
+                var starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+                if (starterAssetsInputs)
+                    Destroy(starterAssetsInputs);
+                
+                rigBuilder = GetComponent<RigBuilder>();
+                if (rigBuilder)
+                    Destroy(rigBuilder);
+                
+                var boneRenderer = GetComponent<BoneRenderer>();
+                if (boneRenderer)
+                    Destroy(boneRenderer);
+                
+                var capsuleCollider = GetComponent<CapsuleCollider>();
+                if (capsuleCollider)
+                    capsuleCollider.enabled = true;
+                
+                agent = GetComponent<NavMeshAgent>();
+                if (agent)
+                    Destroy(agent);
+            }
+            
+            // Invoke the new state Start method
+            CurrentState.StartState();
+        }
     }
 }

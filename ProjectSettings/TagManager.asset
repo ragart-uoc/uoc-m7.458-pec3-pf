@@ -9,6 +9,8 @@ TagManager:
   - CollisionOuter
   - Enemy
   - Item
+  - Neutral
+  - Ally
   layers:
   - Default
   - TransparentFX

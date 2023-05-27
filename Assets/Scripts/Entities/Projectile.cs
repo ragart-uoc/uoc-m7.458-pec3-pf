@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace PEC3.Entities
@@ -10,6 +9,9 @@ namespace PEC3.Entities
     {
         /// <value>Property <c>_rigidbody</c> represents the projectile rigidbody.</value>
         private Rigidbody _rigidbody;
+        
+        /// <value>Property <c>damage</c> represents the projectile damage.</value>
+        public float damage = 10f;
         
         /// <value>Property <c>speed</c> represents the projectile speed.</value>
         public float speed = 20f;
@@ -37,7 +39,18 @@ namespace PEC3.Entities
         /// <param name="col"></param>
         private void OnTriggerEnter(Collider col)
         {
-            //Destroy(gameObject);
+            // TODO: This assumes only enemies are hit by arrows. The arrow should contain the information about which entities it can hit.
+            if (col.gameObject.CompareTag("Enemy"))
+            {
+                var enemy = col.gameObject.GetComponent<Character>();
+                // Damage the enemy
+                enemy.TakeDamage(damage);
+                // Aggro the enemy
+                // TODO: This assumes only players shoot arrows. The arrow should contain the information about the shooter.
+                enemy.forcedTarget = GameObject.FindGameObjectWithTag("Player").transform;
+                // Destroy the projectile
+                Destroy(gameObject);
+            }
         }
     }
 }

@@ -3,6 +3,7 @@
     using UnityEngine.InputSystem;
 #endif
 using StarterAssets;
+using PEC3.Entities;
 
 namespace PEC3.Controllers
 {
@@ -180,6 +181,9 @@ namespace PEC3.Controllers
         /// <value>Property <c>_input</c> represents the starter assets inputs.</value>
         private StarterAssetsInputs _input;
         
+        /// <value>Property <c>_character</c> represents the character.</value>
+        private Character _character;
+        
         /// <value>Property <c>_mainCamera</c> represents the main camera.</value>
         private GameObject _mainCamera;
 
@@ -231,6 +235,11 @@ namespace PEC3.Controllers
             #else
                 Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
             #endif
+            
+            // Get the character and override the base movement and sprint speeds
+            _character = GetComponent<Character>();
+            moveSpeed = _character.moveSpeed;
+            sprintSpeed = _character.sprintSpeed;
 
             // Assign the animation identifiers
             AssignAnimationIDs();

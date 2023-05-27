@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace PEC3.Entities.CharacterStates
@@ -16,6 +17,63 @@ namespace PEC3.Entities.CharacterStates
         /// Method <c>UpdateState</c> invokes the state Update method.
         /// </summary>
         void UpdateState();
+        
+        /// <summary>
+        /// Method <c>Move</c> invokes the state Move method.
+        /// </summary>
+        void Move();
+
+        /// <summary>
+        /// Method <c>Wander</c> invokes the state Wander method.
+        /// </summary>
+        void Wander();
+
+        /// <summary>
+        /// Method <c>Flee</c> invokes the state Flee method.
+        /// </summary>
+        void Flee(Transform target);
+
+        /// <summary>
+        /// Method <c>Chase</c> invokes the state Chase method.
+        /// </summary>
+        void Chase(Transform target);
+
+        /// <summary>
+        /// Method <c>Attack</c> invokes the state Attack method.
+        /// </summary>
+        IEnumerator Attack();
+        
+        /// <summary>
+        /// Method <c>AttackFinished</c> invokes the state AttackFinished method.
+        /// </summary>
+        void AttackFinished();
+
+        /// <summary>
+        /// Method <c>Shoot</c> invokes the state Shoot method.
+        /// </summary>
+        /// <param name="projectileSpawnPointPosition">The projectile spawn point position.</param>
+        /// <param name="projectileAimDirection">The projectile aim direction.</param>
+        IEnumerator Shoot(Vector3 projectileSpawnPointPosition, Vector3 projectileAimDirection);
+
+        /// <summary>
+        /// Method <c>Hit</c> invokes the state Hit method.
+        /// </summary>
+        IEnumerator TakeDamage(float damage);
+
+        /// <summary>
+        /// Method <c>Die</c> invokes the state Die method.
+        /// </summary>
+        IEnumerator Die();
+        
+        /// <summary>
+        /// Method <c>DeadFinished</c> invokes the state DeadFinished method.
+        /// </summary>
+        IEnumerator DeadFinished();
+
+        /// <summary>
+        /// Method <c>DropObject</c> invokes the state DropObject method.
+        /// </summary>
+        void DropItem();
 
         /// <summary>
         /// Method <c>InputAttack</c> invokes the state OnAttack method.
