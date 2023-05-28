@@ -212,7 +212,7 @@ namespace PEC3.Entities.CharacterStates
                 // Start the hit animation
                 _character.animator.SetTrigger(_character.AnimatorHit);
                 // Launch the hit1 and hit2 particles
-                _character.hit1Particles.Play();
+                _character.hit1Particles.gameObject.SetActive(true);
                 _character.hit2Particles.Play();
                 // Unset the flags
                 _character.hit = false;
@@ -254,7 +254,7 @@ namespace PEC3.Entities.CharacterStates
                 // Start the dead animation
                 _character.animator.SetBool(_character.AnimatorDead, true);
                 // Launch the dead particles
-                _character.deathParticles.Play();
+                _character.deathParticles.gameObject.SetActive(true);
             }
             
             /// <summary>
@@ -271,6 +271,9 @@ namespace PEC3.Entities.CharacterStates
                     _character.transform.localScale -= new Vector3(0.01f, 0.01f, 0.01f);
                     yield return null;
                 }
+                
+                // Launch the after death particles
+                _character.afterDeathParticles.gameObject.SetActive(true);
 
                 // Destroy the enemy
                 Object.Destroy(_character.gameObject);

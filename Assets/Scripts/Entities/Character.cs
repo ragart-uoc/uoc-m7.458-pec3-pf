@@ -712,15 +712,15 @@ namespace PEC3.Entities
             characterType = charType;
             tag = charType.ToString();
             
-            // Change the state
-            CurrentState = _characterStates[characterType];
-            
             // Reset all properties
             ResetAllProperties();
 
             // If the character is a player, reset the components
             if (CurrentState == _characterStates[CharacterProperties.Types.Player])
                 RemovePlayerComponents();
+            
+            // Change the state
+            CurrentState = _characterStates[characterType];
             
             // Invoke the new state Start method
             CurrentState.StartState();

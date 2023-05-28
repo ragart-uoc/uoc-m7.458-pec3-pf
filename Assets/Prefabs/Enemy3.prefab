@@ -2205,6 +2205,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7226888052703040405, guid: 7ec363c8df426644ea85f8d6d570561c,
+        type: 3}
+      propertyPath: clearBehavior
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7226888052703040406, guid: 7ec363c8df426644ea85f8d6d570561c,
         type: 3}
       propertyPath: m_RootOrder
@@ -2262,8 +2267,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7226888052703040407, guid: 7ec363c8df426644ea85f8d6d570561c,
         type: 3}
-      propertyPath: playOnAwake
-      value: 0
+      propertyPath: stopAction
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7226888052703040408, guid: 7ec363c8df426644ea85f8d6d570561c,
         type: 3}
@@ -2274,6 +2279,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AfterDead
+      objectReference: {fileID: 0}
+    - target: {fileID: 7226888052703040409, guid: 7ec363c8df426644ea85f8d6d570561c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7226888052859246532, guid: 7ec363c8df426644ea85f8d6d570561c,
         type: 3}
@@ -2342,6 +2352,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1047162499683695509}
     m_Modifications:
+    - target: {fileID: 1429954232896169629, guid: 83036083a4ebcd34f98131bd3cf6f4d2,
+        type: 3}
+      propertyPath: clearBehavior
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1429954232896169630, guid: 83036083a4ebcd34f98131bd3cf6f4d2,
         type: 3}
       propertyPath: m_RootOrder
@@ -2404,13 +2419,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2,
         type: 3}
-      propertyPath: playOnAwake
-      value: 0
+      propertyPath: stopAction
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1429954232896169633, guid: 83036083a4ebcd34f98131bd3cf6f4d2,
         type: 3}
       propertyPath: m_Name
       value: Hit1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169633, guid: 83036083a4ebcd34f98131bd3cf6f4d2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1429954232937552485, guid: 83036083a4ebcd34f98131bd3cf6f4d2,
         type: 3}
@@ -2474,6 +2494,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1047162499683695509}
     m_Modifications:
+    - target: {fileID: 114114994653804418, guid: b5c8ca7ed10b61e499cce8ec3b6e2e4c,
+        type: 3}
+      propertyPath: clearBehavior
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2890922287441858210, guid: b5c8ca7ed10b61e499cce8ec3b6e2e4c,
         type: 3}
       propertyPath: m_Color.g
@@ -2496,8 +2521,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5515065002404772068, guid: b5c8ca7ed10b61e499cce8ec3b6e2e4c,
         type: 3}
-      propertyPath: playOnAwake
-      value: 0
+      propertyPath: stopAction
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5640562698000028052, guid: b5c8ca7ed10b61e499cce8ec3b6e2e4c,
         type: 3}
@@ -2558,6 +2583,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Reborn
+      objectReference: {fileID: 0}
+    - target: {fileID: 5642766282230003982, guid: b5c8ca7ed10b61e499cce8ec3b6e2e4c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7660836441076557302, guid: b5c8ca7ed10b61e499cce8ec3b6e2e4c,
         type: 3}
@@ -2731,11 +2761,6 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8099996740612524614, guid: 141e1779869c79845bd243610f187f47,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8774701534945957096, guid: 141e1779869c79845bd243610f187f47,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -2762,10 +2787,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1047162499683695509}
     m_Modifications:
+    - target: {fileID: 114594520628833592, guid: 463cf9f7af4680240898f6aeba3fe3e6,
+        type: 3}
+      propertyPath: clearBehavior
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5985634496115995770, guid: 463cf9f7af4680240898f6aeba3fe3e6,
         type: 3}
-      propertyPath: playOnAwake
-      value: 0
+      propertyPath: stopAction
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5985634496115995771, guid: 463cf9f7af4680240898f6aeba3fe3e6,
         type: 3}
@@ -2832,6 +2862,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dead
       objectReference: {fileID: 0}
+    - target: {fileID: 5985634496115995773, guid: 463cf9f7af4680240898f6aeba3fe3e6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 463cf9f7af4680240898f6aeba3fe3e6, type: 3}
 --- !u!198 &625426781047616536 stripped
@@ -2860,18 +2895,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2353600328317590899, guid: ceec7516237b4104b94300043ca39784,
         type: 3}
-      propertyPath: playOnAwake
-      value: 0
+      propertyPath: stopAction
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2353600328317625555, guid: ceec7516237b4104b94300043ca39784,
         type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2353600328335836176, guid: ceec7516237b4104b94300043ca39784,
+        type: 3}
+      propertyPath: clearBehavior
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2353600328335836179, guid: ceec7516237b4104b94300043ca39784,
         type: 3}
       propertyPath: m_Name
       value: Restore
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353600328335836179, guid: ceec7516237b4104b94300043ca39784,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2353600328335939635, guid: ceec7516237b4104b94300043ca39784,
         type: 3}
