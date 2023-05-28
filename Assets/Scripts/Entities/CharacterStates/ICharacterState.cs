@@ -59,6 +59,18 @@ namespace PEC3.Entities.CharacterStates
         /// Method <c>Hit</c> invokes the state Hit method.
         /// </summary>
         IEnumerator TakeDamage(float damage);
+        
+        /// <summary>
+        /// Method <c>RestoreHealth</c> invokes the state RestoreHealth method.
+        /// </summary>
+        /// <param name="multiplier">The multiplier of the health.</param>
+        IEnumerator RestoreHealth(float multiplier);
+        
+        /// <summary>
+        /// Method <c>RestoreShield</c> invokes the state RestoreShield method.
+        /// </summary>
+        /// <param name="multiplier">The multiplier of the shield.</param>
+        IEnumerator RestoreShield(float multiplier);
 
         /// <summary>
         /// Method <c>Die</c> invokes the state Die method.

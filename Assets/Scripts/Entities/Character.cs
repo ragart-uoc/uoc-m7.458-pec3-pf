@@ -8,6 +8,8 @@ using Cinemachine;
 using StarterAssets;
 using PEC3.Controllers;
 using PEC3.Entities.CharacterStates;
+using PEC3.Managers;
+using Random = UnityEngine.Random;
 
 namespace PEC3.Entities
 {
@@ -18,27 +20,18 @@ namespace PEC3.Entities
     {
         #region Character States
             
-            /// <value>Property <c>CharacterStates</c> represents the list of character states.</value>
-            public enum CharacterType
-            {
-                Ally,
-                Enemy,
-                Neutral,
-                Player
-            }
-            
             /// <value>Property <c>characterType</c> represents the character type.</value>
-            public CharacterType characterType;
+            public CharacterProperties.Types characterType;
         
             /// <value>Property <c>_characterStates</c> represents the list of character states.</value>
-            private readonly Dictionary<CharacterType, ICharacterState> _characterStates = new Dictionary<CharacterType, ICharacterState>();
+            private readonly Dictionary<CharacterProperties.Types, ICharacterState> _characterStates = new Dictionary<CharacterProperties.Types, ICharacterState>();
             
             /// <value>Property <c>CurrentState</c> represents the current character state.</value>
             public ICharacterState CurrentState;
             
         #endregion
         
-        #region Components
+        #region Component references
         
             /// <value>Property <c>controller</c> represents the custom third person controller.</value>
             [Header("Components")]
@@ -46,23 +39,35 @@ namespace PEC3.Entities
 
             /// <value>Property <c>animator</c> represents the character animator.</value>
             public Animator animator;
+
+            /// <value>Property <c>rigBuilder</c> represents the rig builder.</value>
+            public RigBuilder rigBuilder;
             
             /// <value>Property <c>agent</c> represents the character nav mesh agent.</value>
             public NavMeshAgent agent;
+
+            /// <value>Property <c>playerInputs</c> represents the player inputs.</value>
+            public StarterAssetsInputs playerInputs;
         
         #endregion
         
         #region Character Settings
+        
+            /// <value>Property <c>maxHealth</c> represents the maximum health of the character.</value>
+            public float maxHealth = 100f;
 
             /// <value>Property <c>health</c> represents the health of the character.</value>
             [Header("Character Settings")]
             public float health = 100f;
             
+            /// <value>Property <c>maxShield</c> represents the maximum shield of the character.</value>
+            public float maxShield = 100f;
+            
             /// <value>Property <c>shield</c> represents the shield of the character.</value>
             public float shield;
             
             /// <value>Property <c>damage</c> represents the damage of the character.</value>
-            public float meleeDamage = 10f;
+            public float meleeDamage = 50f;
             
             /// <value>Property <c>attackRate</c> represents the attack rate.</value>
             public float attackRate = 1f;
@@ -98,7 +103,7 @@ namespace PEC3.Entities
 
         #endregion
         
-        #region Drop
+        #region Item Drops
 
             /// <value>Property <c>mandatoryDrop</c> represents the mandatory drop of the enemy.</value>
             [Header("Item Drop")]
@@ -107,6 +112,18 @@ namespace PEC3.Entities
             /// <value>Property <c>optionalDrops</c> represents the optional drops of the enemy.</value>
             public GameObject[] optionalDrops;
             
+        #endregion
+        
+        #region Keys
+
+            /// <value>Property <c>KeyColors</c> represents the colors of the key.</value>
+            private readonly Dictionary<KeyProperties.Colors, bool> _keysObtained = new Dictionary<KeyProperties.Colors, bool>()
+            {
+                {KeyProperties.Colors.Blue, false},
+                {KeyProperties.Colors.Green, false},
+                {KeyProperties.Colors.Red, false}
+            };
+
         #endregion
 
         #region Actions
@@ -132,7 +149,7 @@ namespace PEC3.Entities
 
         #endregion
         
-        #region Wandering and Fleeing
+        #region Navigating
             
             /// <value>Property <c>wanderTimer</c> represents the wander timer.</value>
             public float wanderTimer;
@@ -184,12 +201,9 @@ namespace PEC3.Entities
         #endregion
         
         #region Animation Rigging
-
-            /// <value>Property <c>rigBuilder</c> represents the rig builder.</value>
-            [Header("Animation Rigging")]
-            public RigBuilder rigBuilder;
             
             /// <value>Property <c>aimHeadRig</c> represents the aim head rig.</value>
+            [Header("Animation Rigging")]
             public MultiAimConstraint aimHeadRig;
             
             /// <value>Property <c>aimUpperBodyRig</c> represents the aim upper body rig.</value>
@@ -203,7 +217,7 @@ namespace PEC3.Entities
         
         #endregion
             
-        #region Animation References
+        #region Animator References
             
             /// <value>Property <c>AnimatorAttacking</c> represents the character attacking animation.</value>
             public readonly int AnimatorAttacking = Animator.StringToHash("Attacking");
@@ -220,6 +234,61 @@ namespace PEC3.Entities
             /// <value>Property <c>AnimatorDead</c> represents the character dead animation.</value>
             public readonly int AnimatorDead = Animator.StringToHash("Dead");
 
+        #endregion
+        
+        #region Particles
+        
+            /// <value>Property <c>hit1Particles</c> represents the hit 1 particles.</value>
+            [Header("Particles")]
+            public ParticleSystem hit1Particles;
+            
+            /// <value>Property <c>hit2Particles</c> represents the hit 2 particles.</value>
+            public ParticleSystem hit2Particles;
+            
+            /// <value>Property <c>restoreParticles</c> represents the restore particles.</value>
+            public ParticleSystem restoreParticles;
+            
+            /// <value>Property <c>deathParticles</c> represents the death particles.</value>
+            public ParticleSystem deathParticles;
+            
+            /// <value>Property <c>afterDeathParticles</c> represents the after death particles.</value>
+            public ParticleSystem afterDeathParticles;
+
+            /// <value>Property <c>rebornParticles</c> represents the reborn particles.</value>
+            public ParticleSystem rebornParticles;
+                
+        #endregion
+        
+        #region Sounds
+        
+            /// <value>Property <c>audioSource</c> represents the audio source.</value>
+            [Header("Sounds")]
+            public AudioSource audioSource;
+        
+            /// <value>Property <c>attackSound</c> represents the attack sound.</value>
+            public AudioClip attackSound;
+            
+            /// <value>Property <c>chargeSound</c> represents the charge sound.</value>
+            public AudioClip chargeSound;
+            
+            /// <value>Property <c>shootSound</c> represents the shoot sound.</value>
+            public AudioClip shootSound;
+            
+            /// <value>Property <c>hitSound</c> represents the hit sound.</value>
+            public AudioClip hitSound;
+            
+            /// <value>Property <c>deathSound</c> represents the death sound.</value>
+            public AudioClip deathSound;
+            
+            /// <value>Property <c>screamSound</c> represents the scream sound.</value>
+            public AudioClip screamSound;
+            
+            /// <value>Property <c>detectSound</c> represents the detect sound.</value>
+            public AudioClip detectSound;
+            
+            /// <value>Property <c>rebornSound</c> represents the reborn sound.</value>
+            public AudioClip rebornSound;
+            
         #endregion
         
         #region Cameras
@@ -245,10 +314,10 @@ namespace PEC3.Entities
         private void Awake()
         {
             // Get the character states
-            _characterStates.Add(CharacterType.Ally, new Ally(this));
-            _characterStates.Add(CharacterType.Enemy, new Enemy(this));
-            _characterStates.Add(CharacterType.Neutral, new Neutral(this));
-            _characterStates.Add(CharacterType.Player, new Player(this));
+            _characterStates.Add(CharacterProperties.Types.Ally, new Ally(this));
+            _characterStates.Add(CharacterProperties.Types.Enemy, new Enemy(this));
+            _characterStates.Add(CharacterProperties.Types.Neutral, new Neutral(this));
+            _characterStates.Add(CharacterProperties.Types.Player, new Player(this));
             
             // Set the current state
             CurrentState = _characterStates[characterType];
@@ -279,15 +348,37 @@ namespace PEC3.Entities
             CurrentState.UpdateState();
         }
         
-        /// <summary>
-        /// Method <c>TakeDamage</c> is called when the character takes damage.
-        /// </summary>
-        /// <param name="damage"></param>
-        public void TakeDamage(float damage)
-        {
-            // Invoke the current state TakeDamage method
-            StartCoroutine(CurrentState.TakeDamage(damage * damageTakenMultiplier));
-        }
+        #region Health and Shield
+        
+            /// <summary>
+            /// Method <c>TakeDamage</c> is called when the character takes damage.
+            /// </summary>
+            /// <param name="damage"></param>
+            public void TakeDamage(float damage)
+            {
+                // Invoke the current state TakeDamage method
+                StartCoroutine(CurrentState.TakeDamage(damage * damageTakenMultiplier));
+            }
+            
+            /// <summary>
+            /// Method <c>RestoreHealth</c> is called when the player restores health.
+            /// </summary>
+            /// <param name="multiplier">The multiplier of the health.</param>
+            public void RestoreHealth(float multiplier)
+            {
+                StartCoroutine(CurrentState.RestoreHealth(multiplier));
+            }
+            
+            /// <summary>
+            /// Method <c>RestoreShield</c> is called when the player restores shield.
+            /// </summary>
+            /// <param name="multiplier">The multiplier of the shield.</param>
+            public void RestoreShield(float multiplier)
+            {
+                StartCoroutine(CurrentState.RestoreShield(multiplier));
+            }
+        
+        #endregion
 
         #region Input Action Callbacks
 
@@ -431,6 +522,25 @@ namespace PEC3.Entities
 
         #endregion
         
+        #region Navigating
+        
+            /// <summary>
+            /// Method <c>RandomNavSphere</c> returns a random position on the navmesh.
+            /// </summary>
+            /// <param name="origin">The origin position.</param>
+            /// <param name="distance">The distance from the origin position.</param>
+            /// <param name="layermask">The layermask the navmesh is on.</param>
+            /// <returns></returns>
+            public Vector3 RandomNavSphere(Vector3 origin, float distance, int layermask)
+            {
+                var randomDirection = Random.insideUnitSphere * distance;
+                randomDirection += origin;
+                NavMesh.SamplePosition(randomDirection, out var navHit, distance, layermask);
+                return navHit.position;
+            }
+        
+        #endregion
+
         #region Targetting
         
             /// <summary>
@@ -517,80 +627,148 @@ namespace PEC3.Entities
         #endregion
 
         /// <summary>
-        /// Method <c>RandomNavSphere</c> returns a random position on the navmesh.
+        /// Method <c>ResetAllProperties</c> resets all the properties of the character.
+        /// TODO: Some of these properties are hardcoded. They should be set as public properties.
+        /// TODO: Also, there are other properties that are not reset. They should be reset as well.
         /// </summary>
-        /// <param name="origin">The origin position.</param>
-        /// <param name="distance">The distance from the origin position.</param>
-        /// <param name="layermask">The layermask the navmesh is on.</param>
-        /// <returns></returns>
-        public Vector3 RandomNavSphere(Vector3 origin, float distance, int layermask)
+        private void ResetAllProperties()
         {
-            var randomDirection = Random.insideUnitSphere * distance;
-            randomDirection += origin;
-            NavMesh.SamplePosition(randomDirection, out var navHit, distance, layermask);
-            return navHit.position;
-        }
-
-        public void ResetAllProperties()
-        {
+            // Reset the character settings
+            health = maxHealth;
+            shield = maxShield;
+            lastAttackTime = 0;
+            lastShootTime = 0;
             
-        }
-
-        public void Enemify()
-        {
-            // Reset the properties
-            // TODO: Some of these properties are hardcoded. They should be set as public properties.
-            // TODO: Also, there are other properties that are not reset. They should be reset as well.
-            controller = null;
-            health = 100f;
-            shield = 0;
+            // Reset the action settings
+            attacking = false;
+            aiming = false;
+            chargingFinished = false;
+            shooting = false;
+            hit = false;
             dead = false;
             
+            // Reset the navigating settings
+            wanderTimer = 0;
+            fleeTimer = 0;
+            
+            // Reset the targetting settings
+            targetColliderList = new List<Collider>();
+            itemColliderList = new List<Collider>();
+            target = null;
+            forcedTarget = null;
+        }
+
+        /// <summary>
+        /// Method <c>RemovePlayerComponents</c> removes the player components.
+        /// TODO: This method is hardcoded. It should be improved.
+        /// </summary>
+        private void RemovePlayerComponents()
+        {
+            // Return if the character is not a player
+            if (CurrentState != _characterStates[CharacterProperties.Types.Player])
+                return;
+            
+            // Set a list of the types of components that should be disabled
+            var componentTypesToDisable = new List<string>
+            {
+                "CharacterController",
+                "CustomThirdPersonController",
+                "PlayerInput",
+                "StarterAssetsInputs",
+                "RigBuilder",
+                "BoneRenderer"
+            };
+            
+            // Set a list of the types of components that should be enabled
+            var componentTypesToEnable = new List<string>
+            {
+                "CapsuleCollider",
+                "NavMeshAgent"
+            };
+            
+            // Disable the component types
+            foreach (var componentType in componentTypesToDisable)
+            {
+                var component = GetComponent(componentType);
+                if (component)
+                    component.GetType().GetProperty("enabled")?.SetValue(component, false, null);
+            }
+            
+            // Enable the component types
+            foreach (var componentType in componentTypesToEnable)
+            {
+                var component = GetComponent(componentType);
+                if (component)
+                    component.GetType().GetProperty("enabled")?.SetValue(component, true, null);
+            }
+        }
+
+        /// <summary>
+        /// Method <c>ChangeType</c> changes the type of the character.
+        /// </summary>
+        public void ChangeType(CharacterProperties.Types charType)
+        {
             // Change the tag and type
-            tag = "Enemy";
-            characterType = CharacterType.Enemy;
+            characterType = charType;
+            tag = charType.ToString();
             
             // Change the state
             CurrentState = _characterStates[characterType];
+            
+            // Reset all properties
+            ResetAllProperties();
 
-            // If the character is a player, remove the additional complements
-            if (CurrentState == _characterStates[CharacterType.Player])
-            {
-                var characterController = GetComponent<CharacterController>();
-                if (characterController)
-                    Destroy(characterController);
-                
-                var customThirdPersonController = GetComponent<CustomThirdPersonController>();
-                if (customThirdPersonController)
-                    Destroy(customThirdPersonController);
-                
-                var playerInput = GetComponent<PlayerInput>();
-                if (playerInput)
-                    Destroy(playerInput);
-                
-                var starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-                if (starterAssetsInputs)
-                    Destroy(starterAssetsInputs);
-                
-                rigBuilder = GetComponent<RigBuilder>();
-                if (rigBuilder)
-                    Destroy(rigBuilder);
-                
-                var boneRenderer = GetComponent<BoneRenderer>();
-                if (boneRenderer)
-                    Destroy(boneRenderer);
-                
-                var capsuleCollider = GetComponent<CapsuleCollider>();
-                if (capsuleCollider)
-                    capsuleCollider.enabled = true;
-                
-                agent = GetComponent<NavMeshAgent>();
-                if (agent)
-                    Destroy(agent);
-            }
+            // If the character is a player, reset the components
+            if (CurrentState == _characterStates[CharacterProperties.Types.Player])
+                RemovePlayerComponents();
             
             // Invoke the new state Start method
             CurrentState.StartState();
+        }
+        
+        /// <summary>
+        /// Method <c>GetKey</c> gets a key.
+        /// </summary>
+        /// <param name="keyColor"></param>
+        public void GetKey(KeyProperties.Colors keyColor)
+        {
+            _keysObtained[keyColor] = true;
+            UIManager.Instance.UpdateKeyUI(
+                _keysObtained[KeyProperties.Colors.Blue],
+                _keysObtained[KeyProperties.Colors.Green],
+                _keysObtained[KeyProperties.Colors.Red]
+            );
+        }
+        
+        /// <summary>
+        /// Method <c>HasKey</c> checks if the player has a key.
+        /// </summary>
+        /// <param name="keyColor">The color of the key.</param>
+        public bool HasKey(KeyProperties.Colors keyColor)
+        {
+            return _keysObtained[keyColor];
+        }
+        
+        /// <summary>
+        /// Method <c>OnPause</c> is called when the player pauses the game.
+        /// </summary>
+        private void OnPause()
+        {
+            playerInputs.cursorLocked = !playerInputs.cursorLocked;
+            playerInputs.cursorInputForLook = !playerInputs.cursorInputForLook;
+            GameManager.Instance.TogglePause();
+        }
+
+        /// <summary>
+        /// Method <c>GameOver</c> is called when the player dies.
+        /// </summary>
+        public void GameOver()
+        {
+            playerInputs.cursorLocked = !playerInputs.cursorLocked;
+            playerInputs.cursorInputForLook = !playerInputs.cursorInputForLook;
+            Time.timeScale = 0f;
+            AudioListener.pause = true;
+            UIManager.Instance.ToggleGameOverMenu();
         }
     }
 }

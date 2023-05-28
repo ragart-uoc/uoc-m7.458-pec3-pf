@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using Cinemachine;
 using PEC3.Controllers;
+using PEC3.Managers;
 
 namespace PEC3.Entities.CharacterStates
 {
@@ -221,6 +222,9 @@ namespace PEC3.Entities.CharacterStates
                 }
                 // Start the hit animation
                 _character.animator.SetTrigger(_character.AnimatorHit);
+                // Launch the hit1 and hit2 particles
+                _character.hit1Particles.Play();
+                _character.hit2Particles.Play();
                 // Unset the flags
                 _character.hit = false;
                 // Check if the character is dead
@@ -228,6 +232,30 @@ namespace PEC3.Entities.CharacterStates
                 {
                     _character.StartCoroutine(Die());
                 }
+            }
+            
+            /// <summary>
+            /// Method <c>RestoreHealth</c> restores the character health.
+            /// </summary>
+            public IEnumerator RestoreHealth(float multiplier)
+            {
+                _character.health += _character.maxHealth * multiplier;
+                _character.health = Mathf.Clamp(_character.health, 0.0f, _character.maxHealth);
+                UIManager.Instance.UpdatePlayerUI(_character.health, _character.shield);
+                _character.restoreParticles.Play();
+                yield break;
+            }
+            
+            /// <summary>
+            /// Method <c>RestoreShield</c> restores the character shield.
+            /// </summary>
+            public IEnumerator RestoreShield(float multiplier)
+            {
+                _character.shield += _character.maxShield * multiplier;
+                _character.shield = Mathf.Clamp(_character.shield, 0.0f, _character.maxShield);
+                UIManager.Instance.UpdatePlayerUI(_character.health, _character.shield);
+                _character.restoreParticles.Play();
+                yield break;
             }
 
             /// <summary>
@@ -242,6 +270,8 @@ namespace PEC3.Entities.CharacterStates
                 _character.dead = true;
                 // Start the dead animation
                 _character.animator.SetBool(_character.AnimatorDead, true);
+                // Launch the dead particles
+                _character.deathParticles.Play();
             }
             
             /// <summary>
@@ -249,7 +279,7 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public IEnumerator DeadFinished()
             {
-                _character.Enemify();
+                _character.ChangeType(CharacterProperties.Types.Enemy);
                 yield break;
             }
 

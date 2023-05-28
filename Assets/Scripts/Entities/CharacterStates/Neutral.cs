@@ -182,6 +182,9 @@ namespace PEC3.Entities.CharacterStates
                 }
                 // Start the hit animation
                 _character.animator.SetTrigger(_character.AnimatorHit);
+                // Launch the hit1 and hit2 particles
+                _character.hit1Particles.Play();
+                _character.hit2Particles.Play();
                 // Unset the flags
                 _character.hit = false;
                 // Check if the character is dead
@@ -189,6 +192,24 @@ namespace PEC3.Entities.CharacterStates
                 {
                     _character.StartCoroutine(Die());
                 }
+            }
+            
+            /// <summary>
+            /// Method <c>RestoreHealth</c> restores the character health.
+            /// </summary>
+            public IEnumerator RestoreHealth(float multiplier)
+            {
+                // Neutrals don't restore health (at least for now)
+                yield break;
+            }
+            
+            /// <summary>
+            /// Method <c>RestoreShield</c> restores the character shield.
+            /// </summary>
+            public IEnumerator RestoreShield(float multiplier)
+            {
+                // Neutrals don't restore health (at least for now)
+                yield break;
             }
 
             /// <summary>
@@ -203,6 +224,8 @@ namespace PEC3.Entities.CharacterStates
                 _character.dead = true;
                 // Start the dead animation
                 _character.animator.SetBool(_character.AnimatorDead, true);
+                // Launch the dead particles
+                _character.deathParticles.Play();
             }
             
             /// <summary>
@@ -210,7 +233,7 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public IEnumerator DeadFinished()
             {
-                _character.Enemify();
+                _character.ChangeType(CharacterProperties.Types.Enemy);
                 yield break;
             }
 
