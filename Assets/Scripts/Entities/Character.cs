@@ -315,6 +315,7 @@ namespace PEC3.Entities
         {
             // Get the character states
             _characterStates.Add(CharacterProperties.Types.Ally, new Ally(this));
+            _characterStates.Add(CharacterProperties.Types.Boss, new Boss(this));
             _characterStates.Add(CharacterProperties.Types.Enemy, new Enemy(this));
             _characterStates.Add(CharacterProperties.Types.Neutral, new Neutral(this));
             _characterStates.Add(CharacterProperties.Types.Player, new Player(this));
@@ -762,13 +763,13 @@ namespace PEC3.Entities
         /// <summary>
         /// Method <c>GameOver</c> is called when the player dies.
         /// </summary>
-        public void GameOver()
+        public void GameOver(string message)
         {
             playerInputs.cursorLocked = !playerInputs.cursorLocked;
             playerInputs.cursorInputForLook = !playerInputs.cursorInputForLook;
             Time.timeScale = 0f;
             AudioListener.pause = true;
-            UIManager.Instance.ToggleGameOverMenu();
+            UIManager.Instance.ShowGameOverMenu(message);
         }
     }
 }

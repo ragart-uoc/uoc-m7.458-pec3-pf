@@ -170,7 +170,7 @@ namespace PEC3.Entities.CharacterStates
                     return;
                 // Get the character
                 var target = hit.transform.GetComponent<Character>();
-                // Check if the enemy is dead
+                // Check if the target is dead
                 if (target == null || target.dead)
                     return;
                 // Damage the target
@@ -265,7 +265,7 @@ namespace PEC3.Entities.CharacterStates
                 // Drop a random item
                 DropItem();
 
-                // Make the enemy disappear slowly, decreasing its size
+                // Make the character disappear slowly, decreasing its size
                 while (_character.transform.localScale.x > 0)
                 {
                     _character.transform.localScale -= new Vector3(0.01f, 0.01f, 0.01f);
@@ -275,7 +275,7 @@ namespace PEC3.Entities.CharacterStates
                 // Launch the after death particles
                 _character.afterDeathParticles.gameObject.SetActive(true);
 
-                // Destroy the enemy
+                // Destroy the character
                 Object.Destroy(_character.gameObject);
             }
 

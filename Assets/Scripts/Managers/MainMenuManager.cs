@@ -13,7 +13,7 @@ namespace PEC3.Managers
         /// </summary>
         public void StartGame()
         {
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene("Intro");
         }
         
         /// <summary>

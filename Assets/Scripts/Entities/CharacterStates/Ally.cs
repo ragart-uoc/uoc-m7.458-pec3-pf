@@ -168,7 +168,7 @@ namespace PEC3.Entities.CharacterStates
                     return;
                 // Get the character
                 var target = hit.transform.GetComponent<Character>();
-                // Check if the enemy is dead
+                // Check if the target is dead
                 if (target == null || target.dead)
                     return;
                 // Damage the target

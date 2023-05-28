@@ -2490,12 +2490,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602e6df13f833594faad5038f873a3d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 3
+  characterType: 4
   controller: {fileID: 3123351026426378808}
   animator: {fileID: 4182229732260122329}
   rigBuilder: {fileID: 614510826}
   agent: {fileID: 0}
-  playerInputs: {fileID: 0}
+  playerInputs: {fileID: 7741400931212173755}
   maxHealth: 100
   health: 100
   maxShield: 100

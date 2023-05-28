@@ -9,6 +9,7 @@ namespace PEC3.Entities
         public enum Types
         {
             Ally,
+            Boss,
             Enemy,
             Neutral,
             Player

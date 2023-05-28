@@ -39,6 +39,9 @@ namespace PEC3.Managers
         
         /// <value>Property <c>gameOverMenu</c> represents the game over menu.</value>
         public GameObject gameOverMenu;
+        
+        /// <value>Property <c>gameOverMessage</c> represents the reason for the game over.</value>
+        public TextMeshProUGUI gameOverMessage;
 
         /// <summary>
         /// Method <c>Awake</c> is called when the script instance is being loaded.
@@ -120,11 +123,12 @@ namespace PEC3.Managers
         }
 
         /// <summary>
-        /// Method <c>ToggleGameOverMenu</c> toggles the game over menu.
+        /// Method <c>ShowGameOverMenu</c> toggles the game over menu.
         /// </summary>
-        public void ToggleGameOverMenu()
+        public void ShowGameOverMenu(string message)
         {
-            gameOverMenu.SetActive(!gameOverMenu.activeSelf);
+            gameOverMessage.text = message;
+            gameOverMenu.SetActive(true);
         }
     }
 }

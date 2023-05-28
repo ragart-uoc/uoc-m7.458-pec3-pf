@@ -1494,7 +1494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602e6df13f833594faad5038f873a3d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 1
+  characterType: 2
   controller: {fileID: 0}
   animator: {fileID: 4479958825260104411}
   rigBuilder: {fileID: 0}

@@ -48,6 +48,15 @@ namespace PEC3.Managers
             // Show or hide the pause menu
             UIManager.Instance.TogglePauseMenu();
         }
+        
+        /// <summary>
+        /// Method <c>RestartGame</c> restarts the game.
+        /// </summary>
+        public void RestartGame()
+        {
+            Destroy(gameObject);
+            SceneManager.LoadScene("Game");
+        }
 
         /// <summary>
         /// Method <c>TooglePause</c> is used to pause the game.

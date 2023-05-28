@@ -283,7 +283,8 @@ namespace PEC3.Entities.CharacterStates
                 _character.ChangeType(CharacterProperties.Types.Enemy);
                 // Launch the rebirth particles
                 _character.rebornParticles.gameObject.SetActive(true);
-                yield break;
+                yield return new WaitForSeconds(2f);
+                _character.GameOver("You died");
             }
 
             /// <summary>
