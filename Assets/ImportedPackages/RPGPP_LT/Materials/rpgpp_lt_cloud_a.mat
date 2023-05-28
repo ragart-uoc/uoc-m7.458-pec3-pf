@@ -18,7 +18,7 @@ Material:
   - _CFXR_DITHERED_SHADOWS_OFF
   - _CFXR_OVERLAYBLEND_RGBA
   - _CFXR_OVERLAYTEX_OFF
-  m_LightmapFlags: 1
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1

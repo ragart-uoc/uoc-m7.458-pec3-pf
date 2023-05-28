@@ -220,6 +220,8 @@ namespace PEC3.Entities.CharacterStates
                     _character.health += _character.shield;
                     _character.shield = 0.0f;
                 }
+                // Update the UI
+                UIManager.Instance.UpdatePlayerUI(_character.health, _character.shield);
                 // Start the hit animation
                 _character.animator.SetTrigger(_character.AnimatorHit);
                 // Launch the hit1 and hit2 particles

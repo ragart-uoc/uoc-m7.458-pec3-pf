@@ -13,6 +13,9 @@ namespace PEC3.Managers
         
         /// <value>Property <c>isPaused</c> represents if the game is paused.</value>
         private bool _isPaused;
+        
+        /// <value>Property <c>MaxNumberOfEnemies</c> represents the maximum number of enemies in scene.</value>
+        public int maxNumberOfEnemies = 100;
 
         /// <summary>
         /// Method <c>Awake</c> is called when the script instance is being loaded.
