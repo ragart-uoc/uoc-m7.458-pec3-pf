@@ -276,9 +276,6 @@ namespace PEC3.Entities.CharacterStates
                 _character.afterDeathParticles.gameObject.SetActive(true);
                 
                 yield return new WaitForSeconds(5f);
-                
-                // Show the game over screen
-                _character.GameOver("The sea of clouds is safe again");
 
                 // Destroy the enemy
                 Object.Destroy(_character.gameObject);

@@ -17,6 +17,9 @@ namespace PEC3.Managers
         /// <value>Property <c>MaxNumberOfEnemies</c> represents the maximum number of enemies in scene.</value>
         public int maxNumberOfEnemies = 100;
 
+        /// <value>Property <c>boss</c> represents the boss.</value>
+        public Transform boss;
+
         /// <summary>
         /// Method <c>Awake</c> is called when the script instance is being loaded.
         /// </summary>
@@ -25,7 +28,7 @@ namespace PEC3.Managers
             // Singleton pattern
             if (Instance != null && Instance != this)
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
                 return;
             }
             Instance = this;
@@ -37,6 +40,20 @@ namespace PEC3.Managers
         private void Start()
         {
             UIManager.Instance.ClearMessageText();
+        }
+        
+        /// <summary>
+        /// Method <c>SummonBoss</c> summons the boss.
+        /// </summary>
+        /// <param name="redKey">If the red key is collected.</param>
+        /// <param name="blueKey">If the blue key is collected.</param>
+        /// <param name="greenKey">If the green key is collected.</param>
+        public void SummonBoss(bool redKey, bool blueKey, bool greenKey)
+        {
+            if (!redKey || !blueKey || !greenKey)
+                return;
+            UIManager.Instance.UpdateMessageText("The immortal is here!", 2f);
+            boss.gameObject.SetActive(true);
         }
         
         /// <summary>

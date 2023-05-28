@@ -69,6 +69,13 @@ namespace PEC3.Entities.CharacterStates
             if (_character.dead)
                 return;
             
+            // Check if the boss is dead
+            if (GameManager.Instance.boss == null)
+            {
+                _character.GameOver("The sea of clouds is safe again");
+                return;
+            }
+
             // Check if the player is aiming
             if (_character.aiming)
             {

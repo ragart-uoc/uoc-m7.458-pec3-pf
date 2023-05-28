@@ -734,10 +734,15 @@ namespace PEC3.Entities
         public void GetKey(KeyProperties.Colors keyColor)
         {
             _keysObtained[keyColor] = true;
-            UIManager.Instance.UpdateKeyUI(
-                _keysObtained[KeyProperties.Colors.Blue],
+            GameManager.Instance.SummonBoss(
+                _keysObtained[KeyProperties.Colors.Red],
                 _keysObtained[KeyProperties.Colors.Green],
-                _keysObtained[KeyProperties.Colors.Red]
+                _keysObtained[KeyProperties.Colors.Blue]
+            );
+            UIManager.Instance.UpdateKeyUI(
+                _keysObtained[KeyProperties.Colors.Red],
+                _keysObtained[KeyProperties.Colors.Green],
+                _keysObtained[KeyProperties.Colors.Blue]
             );
         }
         
@@ -756,7 +761,7 @@ namespace PEC3.Entities
         private void OnPause()
         {
             playerInputs.cursorLocked = !playerInputs.cursorLocked;
-            playerInputs.cursorInputForLook = !playerInputs.cursorInputForLook;
+            //playerInputs.cursorInputForLook = !playerInputs.cursorInputForLook;
             GameManager.Instance.TogglePause();
         }
 
@@ -766,7 +771,7 @@ namespace PEC3.Entities
         public void GameOver(string message)
         {
             playerInputs.cursorLocked = !playerInputs.cursorLocked;
-            playerInputs.cursorInputForLook = !playerInputs.cursorInputForLook;
+            //playerInputs.cursorInputForLook = !playerInputs.cursorInputForLook;
             Time.timeScale = 0f;
             AudioListener.pause = true;
             UIManager.Instance.ShowGameOverMenu(message);
