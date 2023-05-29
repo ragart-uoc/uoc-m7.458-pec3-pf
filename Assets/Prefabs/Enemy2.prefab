@@ -527,7 +527,7 @@ MonoBehaviour:
   deathParticles: {fileID: 5261529295004333715}
   afterDeathParticles: {fileID: 1800096039081369208}
   rebornParticles: {fileID: 7701224520479147257}
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 2056429268460156120}
   attackSound: {fileID: 0}
   chargeSound: {fileID: 0}
   shootSound: {fileID: 0}

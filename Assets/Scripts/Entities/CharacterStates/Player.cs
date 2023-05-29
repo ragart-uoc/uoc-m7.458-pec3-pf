@@ -203,6 +203,8 @@ namespace PEC3.Entities.CharacterStates
                 );
                 // Start the shooting animation
                 _character.animator.SetTrigger(_character.AnimatorShooting);
+                // Play the shooting sound
+                _character.audioSource.PlayOneShot(_character.shootSound);
                 // Unset the flags
                 _character.shooting = false;
                 yield break;
