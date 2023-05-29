@@ -8,7 +8,7 @@ El objetivo de la práctica era desarrollar un juego de plataformas en tercera p
 
 ## Vídeo explicativo
 
-[ VÍDEO PENDIENTE ]
+[![Vídeo explicativo](https://img.youtube.com/vi/RuJaVtn7nt4/maxresdefault.jpg)](https://youtu.be/RuJaVtn7nt4)
 
 ## Versión de Unity
 
