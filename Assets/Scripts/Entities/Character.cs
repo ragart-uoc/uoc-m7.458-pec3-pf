@@ -760,21 +760,16 @@ namespace PEC3.Entities
         /// </summary>
         private void OnPause()
         {
-            playerInputs.cursorLocked = !playerInputs.cursorLocked;
-            //playerInputs.cursorInputForLook = !playerInputs.cursorInputForLook;
             GameManager.Instance.TogglePause();
         }
-
+        
         /// <summary>
-        /// Method <c>GameOver</c> is called when the player dies.
+        /// Method <c>ToggleInput</c> toggles the input.
         /// </summary>
-        public void GameOver(string message)
+        public void ToggleInput()
         {
             playerInputs.cursorLocked = !playerInputs.cursorLocked;
-            //playerInputs.cursorInputForLook = !playerInputs.cursorInputForLook;
-            Time.timeScale = 0f;
-            AudioListener.pause = true;
-            UIManager.Instance.ShowGameOverMenu(message);
+            playerInputs.cursorInputForLook = !playerInputs.cursorInputForLook;
         }
     }
 }

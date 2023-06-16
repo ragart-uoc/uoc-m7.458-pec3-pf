@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +12,15 @@ namespace PEC3.Entities.CharacterStates
     {
         /// <value>Property <c>Character</c> represents the character.</value>
         private readonly Character _character;
-        
+
+        /// <value>Property <c>TargetTags</c> represents the tags of the targets.</value>
+        public List<string> TargetTags { get; set; } = new()
+        {
+            "Player",
+            "Ally",
+            "Neutral"
+        };
+
         /// <summary>
         /// Class constructor <c>Enemy</c> initializes the class.
         /// </summary>
@@ -76,8 +85,8 @@ namespace PEC3.Entities.CharacterStates
                 // Update the wander timer
                 _character.wanderTimer += Time.deltaTime;
                 
-                // Check if the wander timer is greater than the wander time
-                if (!(_character.wanderTimer > _character.wanderTime))
+                // Check if the wander time was exceeded
+                if (_character.wanderTimer <= _character.wanderTime)
                     return;
 
                 // Get a random position
@@ -139,7 +148,7 @@ namespace PEC3.Entities.CharacterStates
             {
                 // Check if the character is already attacking or if the attack is on cooldown
                 if (_character.attacking
-                        || Time.time < _character.lastAttackTime + _character.attackRate)
+                    || Time.time < _character.lastAttackTime + _character.attackRate)
                     yield break;
                 // Set the flags
                 _character.attacking = true;
@@ -164,9 +173,7 @@ namespace PEC3.Entities.CharacterStates
                 if (!Physics.Raycast(ray, out var hit, _character.attackDistance))
                     return;
                 // Check if the collider is a target
-                if (!hit.transform.CompareTag("Player")
-                    && !hit.transform.CompareTag("Neutral")
-                    && !hit.transform.CompareTag("Ally"))
+                if (!TargetTags.Contains(hit.transform.tag))
                     return;
                 // Get the character
                 var target = hit.transform.GetComponent<Character>();
@@ -265,7 +272,7 @@ namespace PEC3.Entities.CharacterStates
                 // Drop a random item
                 DropItem();
 
-                // Make the enemy disappear slowly, decreasing its size
+                // Make the character disappear slowly, decreasing its size
                 while (_character.transform.localScale.x > 0)
                 {
                     _character.transform.localScale -= new Vector3(0.01f, 0.01f, 0.01f);
@@ -277,7 +284,7 @@ namespace PEC3.Entities.CharacterStates
                 
                 yield return new WaitForSeconds(5f);
 
-                // Destroy the enemy
+                // Destroy the character
                 Object.Destroy(_character.gameObject);
             }
 
@@ -374,7 +381,7 @@ namespace PEC3.Entities.CharacterStates
                 {
                     case "CollisionInner":
                         // Check if the collider is a target
-                        if ((col.CompareTag("Player") || col.CompareTag("Neutral") || col.CompareTag("Ally"))
+                        if (TargetTags.Contains(col.tag)
                             && !_character.targetColliderList.Contains(col))
                         {
                             // Add the collider to the target list
@@ -400,7 +407,7 @@ namespace PEC3.Entities.CharacterStates
                 {
                     case "CollisionInner":
                         // Check if the collider is a target
-                        if ((col.CompareTag("Player") || col.CompareTag("Neutral") || col.CompareTag("Ally"))
+                        if (TargetTags.Contains(col.tag)
                             && !_character.targetColliderList.Contains(col))
                         {
                             // Add the collider to the target list
@@ -426,7 +433,7 @@ namespace PEC3.Entities.CharacterStates
                 {
                     case "CollisionInner":
                         // Check if the collider is a target
-                        if ((col.CompareTag("Player") || col.CompareTag("Neutral") || col.CompareTag("Ally"))
+                        if (TargetTags.Contains(col.tag)
                             && _character.targetColliderList.Contains(col))
                         {
                             // Remove the collider from the target list

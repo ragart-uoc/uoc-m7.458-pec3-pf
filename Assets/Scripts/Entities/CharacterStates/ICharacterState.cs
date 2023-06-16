@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PEC3.Entities.CharacterStates
@@ -8,6 +9,9 @@ namespace PEC3.Entities.CharacterStates
     /// </summary>
     public interface ICharacterState
     {
+        /// <value>Property <c>TargetTags</c> represents the tags of the targets.</value>
+        List<string> TargetTags { get; set; }
+
         /// <summary>
         /// Method <c>StartState</c> invokes the state Start method.
         /// </summary>

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using Cinemachine;
@@ -14,6 +15,13 @@ namespace PEC3.Entities.CharacterStates
     {
         /// <value>Property <c>Character</c> represents the character.</value>
         private readonly Character _character;
+
+        /// <value>Property <c>TargetTags</c> represents the tags of the targets.</value>
+        public List<string> TargetTags { get; set; } = new()
+        {
+            "Enemy"
+        };
+
         
         /// <value>Property <c>MouseWorldPosition</c> represents the mouse world position.</value>
         private Vector3 _mouseWorldPosition;
@@ -68,13 +76,6 @@ namespace PEC3.Entities.CharacterStates
             // Check if the character is dead
             if (_character.dead)
                 return;
-            
-            // Check if the boss is dead
-            if (GameManager.Instance.boss == null)
-            {
-                _character.GameOver("The sea of clouds is safe again");
-                return;
-            }
 
             // Check if the player is aiming
             if (_character.aiming)
@@ -173,7 +174,7 @@ namespace PEC3.Entities.CharacterStates
                 if (!Physics.Raycast(ray, out var hit, _character.attackDistance))
                     return;
                 // Check if the collider is a target
-                if (!hit.transform.CompareTag("Enemy"))
+                if (!TargetTags.Contains(hit.transform.tag))
                     return;
                 // Get the character
                 var target = hit.transform.GetComponent<Character>();
@@ -295,7 +296,7 @@ namespace PEC3.Entities.CharacterStates
                 // Launch the rebirth particles
                 _character.rebornParticles.gameObject.SetActive(true);
                 yield return new WaitForSeconds(2f);
-                _character.GameOver("You died");
+                GameManager.Instance.GameOver("You died");
             }
 
             /// <summary>

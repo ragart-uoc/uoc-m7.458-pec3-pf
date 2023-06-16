@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using PEC3.Entities;
 
 namespace PEC3.Managers
 {
@@ -16,6 +17,9 @@ namespace PEC3.Managers
         
         /// <value>Property <c>MaxNumberOfEnemies</c> represents the maximum number of enemies in scene.</value>
         public int maxNumberOfEnemies = 100;
+        
+        /// <value>Property <c>player</c> represents the player.</value>
+        public Character player;
 
         /// <value>Property <c>boss</c> represents the boss.</value>
         public Transform boss;
@@ -39,9 +43,21 @@ namespace PEC3.Managers
         /// </summary>
         private void Start()
         {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
             UIManager.Instance.ClearMessageText();
         }
-        
+
+        /// <summary>
+        /// Method <c>FixedUpdate</c> is called every fixed framerate frame.
+        /// </summary>
+        private void FixedUpdate()
+        {
+            // Check if boss is defined and has been destroyed
+            if (boss == null || boss.gameObject.activeSelf)
+                return;
+            GameOver("The sea of clouds is safe again");
+        }
+
         /// <summary>
         /// Method <c>SummonBoss</c> summons the boss.
         /// </summary>
@@ -62,11 +78,27 @@ namespace PEC3.Managers
         public void TogglePause()
         {
             _isPaused = !_isPaused;
+            // Disable player input
+            player.ToggleInput();
             // Pause or resume time and audio
             Time.timeScale = _isPaused ? 0 : 1;
             AudioListener.pause = _isPaused;
             // Show or hide the pause menu
             UIManager.Instance.TogglePauseMenu();
+        }
+
+        /// <summary>
+        /// Method <c>GameOver</c> is called when the player dies.
+        /// </summary>
+        public void GameOver(string message)
+        {
+            // Disable player input
+            player.ToggleInput();
+            // Stop time and audio
+            Time.timeScale = 0f;
+            AudioListener.pause = true;
+            // Show the game over menu
+            UIManager.Instance.ShowGameOverMenu(message);
         }
         
         /// <summary>
