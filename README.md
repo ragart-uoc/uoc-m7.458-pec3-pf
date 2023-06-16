@@ -2,19 +2,42 @@
 
 ![Sea of Clouds](README/pec3-1.png)
 
-"Sea of Clouds"es el nombre de mi prototipo para la tercera Práctica de Evaluación Continua (PEC3) de la asignatura Programación de Videojuegos 3D del Máster Universitario en Diseño y Programación de Videojuegos de la UOC.
+"Sea of Clouds" es el nombre de mi prototipo para la tercera Práctica de Evaluación Continua (PEC3) y para la Práctica Final (FP) de la asignatura Programación de Videojuegos 3D del Máster Universitario en Diseño y Programación de Videojuegos de la UOC.
 
-El objetivo de la práctica era desarrollar un juego de plataformas en tercera persona utilizando los conocimientos adquiridos en el estudio del primer módulo de la asignatura y realizando investigación por cuenta propia.
+El objetivo de la práctica era desarrollar un juego de plataformas en tercera persona utilizando los conocimientos adquiridos en el estudio del tercer módulo de la asignatura y realizando investigación por cuenta propia. La práctica final, además, requería ampliar el juego añadiendo mejoras y nuevas características.
 
-## Vídeo explicativo
+## Novedades de la práctica final
 
-[![Vídeo explicativo](https://img.youtube.com/vi/RuJaVtn7nt4/maxresdefault.jpg)](https://youtu.be/RuJaVtn7nt4)
+Como la práctica final es una extensión de la práctica anterior, a continuación se detallan los cambios y mejoras que se han llevado a cabo para poder determinar de manera fácil las diferencias entre ambas:
+
+- Se ha rehecho completamente la escena de juego
+- Se ha añadido vehículos con movimiento autónomo y la posibilidad de entrar en ellos y manejarlos
+- Se ha añadido un sistema de control del tráfico que limita el movimiento autónomo de los vehículos
+- Se ha añadido varias armas repartidas por el escenario y la posibilidad de cambiar entre ellas, además de la visualización de la munición en todo momento
+- Se ha añadido un nuevo comportamiento para todos los tipos de personaje que hace que exploten si son arrollados a gran velocidad por un vehículo
+- Se ha corregido los errores detectados en la práctica anterior
+
+## Vídeo explicativo (PF)
+
+
+
+## Vídeo explicativo (PEC3)
+
+[![Vídeo explicativo](https://img.youtube.com/vi/RuJaVtn7nt4/hqdefault.jpg)](https://youtu.be/RuJaVtn7nt4)
 
 ## Versión de Unity
 
 La versión de Unity utilizada para el desarrollo de la práctica es la <strong>2021.3.19f1 LTS</strong>.
 
 El orden de las escenas está definido en los builds settings del proyecto, siendo Assets/Scenes/Opening.scene la primera escena que debe cargarse.
+
+## Argumento
+
+La isla de Gada es un lugar tranquilo y pacífico en el que sus habitantes viven en una armonía casi perfecta, condicionada únicamente por una norma impuesta milenios atrás: nadie puede abandonar la isla.
+
+Sin embargo, las noticias de una amenaza que está devorando el mundo exterior han llegado a Gada. El Inmortal, una criatura encerrada por los dioses, ha despertado y sus legiones están arrasando el mar de nubes.
+
+Temerosos de que la destrucción llegue a Gada, los ancianos de la aldea han decidido enviar a una joven guerrera a eliminar a buscar la guarida del Inmortal y acabar con él.
 
 ## Cómo jugar
 
@@ -31,55 +54,70 @@ El control se lleva a cabo mediante teclado y ratón, aunque también está prep
 
 ## Desarrollo
 
-De cara a completar el desarrollo de la práctica, se han llevado a cabo las siguientes tareas obligatorias y opcionales, además de incluir algunos extras que se han ido añadiendo a lo largo del desarrollo.
+De cara a completar el desarrollo de ambas prácticas, se han llevado a cabo las siguientes tareas obligatorias y opcionales, además de incluir algunos extras que se han ido añadiendo a lo largo del desarrollo.
 
-- [x] (Obligatorio) Se ha creado un escenario que consiste en un pueblo y una zona natural.
-- [x] (Obligatorio) El personaje dispone de un arma a distancia que le permite disparar hacia delante.
-- [x] (Obligatorio) El personaje está completamente animado.
-- [x] (Obligatorio) La salud y la armadura se muestran constantemente en el HUD. La munición, no (ver explicación más adelante).
-- [x] (Obligatorio) Los enemigos pasean por la ciudad y atacan al enemigo cuando está cerca.
-- [x] (Obligatorio) Los enemigos están completamente animados.
-- [x] (Obligatorio) Se dispara un sistema de partículas cuando un personaje (jugador o no) recibe daño o muere.
-- [x] (Obligatorio) Hay objetos de salud y armadura repartidos por el escenario. Munición, no (ver explicación más adelante).
-- [x] (Obligatorio) El juego dispone de una pantalla de juego terminado que permite reiniciar la partida.
-- [x] (Opcional) El juego dispone de al menos un puzle que requiere saltar para progresar.
-- [ ] (Opcional) No se han añadido otros tipos de arma (ver explicación más adelante).
-- [x] (Opcional) El juego está totalmente sonificado.
-- [x] (Opcional) Se han añadido diferentes tipos de enemigos.
-- [x] (Opcional) Es posible apuntar al disparar.
-- [x] (Opcional) El juego dispone de al menos un puzle que requiere obtener llaves para progresar.
-- [x] (Opcional) El jugador tiene un arma cuerpo a cuerpo.
-- [x] (Opcional) Los enemigos pueden dejar objetos al morir.
-- [x] (Opcional) Los enemigos aparecen en varias fuentes del escenario de manera incremental.
-- [x] (Opcional) Se ha utilizado el componente animation rigging para que el personaje mire hacia los objetos cercanos.
-- [x] (Opcional) Se ha implementado la iluminación global
+### Tareas obligatorias
 
-Todos los objetivos que no se han cumplido o se han cumplido parcialmente están relacionados con la inclusión de nuevas armas o con la munición y es porque <strong>el proyecto se ha considerado como un todo que incluye los objetivos de esta práctica y de la siguiente</strong> y, por un motivo puramente arquitectónico y de optimización del proceso de desarrollo, <strong>se ha optado por implementar primero las características con mayor transversalidad y por posponer aquellas que son fácilmente incorporables como extras</strong>. En concreto, se ha priorizado la implementación de la IA en los personajes, afrontando las siguientes tareas de la próxima práctica:
+- [x] Se ha creado un escenario que dispone de zonas urbanas y vegetales.
+- [x] El personaje dispone de un arma a distancia que le permite disparar hacia delante.
+- [x] El personaje está completamente animado.
+- [ ] La salud, la armadura y la munición se muestran constantemente en el HUD. La munición, no (ver explicación más adelante).
+- [x] Los enemigos pasean por la ciudad y atacan al enemigo cuando está cerca.
+- [x] Los enemigos están completamente animados.
+- [x] Se dispara un sistema de partículas cuando un personaje (jugador o no) recibe daño o muere.
+- [ ] Hay objetos de salud, armadura y munición repartidos por el escenario. Munición, no (ver explicación más adelante).
+- [x] El juego dispone de una pantalla de juego terminado que permite reiniciar la partida.
+- [x] Los enemigos se mueven entre puntos aleatorios y corren hacia el jugador al detectarlo.
+- [x] Hay personajes de carácter neutral paseando por el escenario.
+- [x] Los personajes de carácter neutral huyen de los enemigos.
+- [x] Se ha creado un menú principal que, además de empezar la partida, permite configurar varios parámetros del juego: volumen general, velocidad del juego y dificultad del juego.
+- [ ] Hay vehículos que se mueven por el escenario.
+- [ ] El jugador puede entrar en los vehículos y desplazarse con ellos.
 
-- [x] (Obligatorio) Los enemigos se mueven entre puntos aleatorios y corren hacia el jugador al detectarlo.
-- [x] (Obligatorio) Hay personajes de carácter neutral paseando por el escenario.
-- [x] (Obligatorio) Los personajes de carácter neutral huyen de los enemigos.
-- [x] (Opcional) Los personajes de carácter neutral se convierten en enemigos al morir a manos de un enemigo.
+### Tareas opcionales
 
-### La escena de juego
+- [x] El juego dispone de al menos un puzle que requiere saltar para progresar.
+- [ ] Se han añadido diferentes tipos de armas.
+- [ ] Las armas están repartidas por el escenario.
+- [x] El juego está totalmente sonificado.
+- [x] Se han añadido diferentes tipos de enemigos.
+- [x] Es posible apuntar al disparar.
+- [x] El juego dispone de al menos un puzle que requiere obtener llaves para progresar.
+- [x] El jugador tiene un arma cuerpo a cuerpo.
+- [x] Los enemigos pueden dejar objetos al morir.
+- [x] Los enemigos aparecen en varias fuentes del escenario de manera incremental.
+- [x] Se ha utilizado el componente animation rigging para que el personaje mire hacia los objetos cercanos.
+- [x] Se ha implementado la iluminación global.
+- [x] Los personajes de carácter neutral se convierten en enemigos al morir a manos de un enemigo.
+- [ ] Hay un sistema de control del tráfico que limita el movimiento autónomo de los vehículos.
+- [ ] Los NPC y los enemigos explotan si el jugador los atropella a gran velocidad.
 
-La escena de juego no es propia. Ha sido extraída del paquete gratuito [RPG Poly Pack - Lite](https://assetstore.unity.com/packages/3d/environments/landscapes/rpg-poly-pack-lite-148410) de la Unity Assets Store y adaptado según lo requerido por la práctica. Entre otras adaptaciones, se han aplicado shaders a todas las texturas, tanto del escenario como de los personajes y los objetos, aplicando cel shading y un delineado grueso para dar un aspecto de dibujo animado.
+## Características principales
 
-Como tal, la escena dispone de una pequeña aldea en la que se desarrolla el juego y un entorno forestal sin mucho más que unos pocos objetos y enemigos repartidos, pero que ofrece la ventaja de poder huir de los enemigos si las cosas se tuercen.
+A continuación se detallan las características más importantes del desarrollo de la práctica.
+
+### La escena de juego (PEC3 y PF)
+
+La escena del juego se ha rehecho completamente para la práctica final. Ahora, el escenario consiste en cuatro islas flotantes en un mar de nubes.
+
+- La isla principal, Gada, situada al suroeste, consiste en una aldea con varios edificios y zonas vegetales. Hay varios NPC repartidos por ella y enemigos que empiezan a aparecer la primera vez que se vuelve a ella. Uno de los enemigos que aparece posee una de las llaves.
+- La isla del sureste, Stria, contiene un templo en el que se encuentra una de las llaves. Para llegar a ella, es necesario resolver un puzle que consiste en abrir varias puertas pisando diferentes interruptores y llegado a una zona inaccesible mediante plataformas.
+- La isla del norte, Voni, contiene un bosque en el que se encuentra la última de las llaves. Hay varios enemigos fuertes repartidos por ella que conviene evitar.
+- Finalmente, la isla del centro, Vanglasaar, contiene una estructura en la que se encuentra el jefe final del juego. Para llegar a él, es necesario haber recogido previamente las tres llaves.
 
 ![Cel shading](README/pec3-2.png)
 
-### Apuntado, disparo y ataque cuerpo a cuerpo
+### Apuntado, disparo y ataque cuerpo a cuerpo (PEC3)
 
 Para poder disparar el arco, es necesario cargarlo primero. Al hacerlo, el juego bloquea el movimiento del jugador para que no pueda girar con las flechas (sólo desplazarse lateralmente) y enfoca la visión utilizando una segunda cámara. Además, permite apuntar de manera libre a cualquier punto de la escena.
 
 ![Apuntado](README/pec3-3.png)
 
-### El HUD
+### El HUD (PEC3 y PF)
 
-Como en el caso de la práctica anterior, la interfaz de usuario muestra en todo momento la salud y el escudo del jugador, así como las llaves que ha conseguido. También muestra la cruceta y los mensajes enviados por el juego.
+Como en el caso de la PEC2, la interfaz de usuario muestra en todo momento la salud y el escudo del jugador, así como las llaves que ha conseguido y la munición restante del arma actualmente equipada. También muestra la cruceta y los mensajes enviados por el juego.
 
-### Tipos de personaje
+### Tipos de personaje (PEC3)
 
 A efectos de gestionar de manera transversal las características comunes entre jugador, enemigos y NPC, se ha creado una clase maestra que contiene las propiedades y métodos compartidos y que se apoya en una máquina de estados para manejar el tipo del jugador. Esta aproximación permite, entre otras cosas, poder cambiar fácilmente de tipo a un personaje y se implementa <strong>cuando un NPC neutral o aliado se convierte en enemigo al morir</strong>. E incluso permitiría al jugador controlar a un NPC o a un enemigo, así como a cualquier otra entidad a la que se extienda la clase.
 
@@ -95,13 +133,13 @@ En el caso de los enemigos y los NPC (neutrales y aliados) se han añadido vario
 
 ![Enemigos](README/pec3-4.png)
 
-### Objetos y llaves
+### Objetos y llaves (PEC3)
 
 Como en la práctica anterior, el juego incluye tanto objetos de curación como llaves repartidas por el escenario o dejadas por los enemigos al morir.
 
 ![Objetos](README/pec3-5.png);
 
-### Animaciones y rigging
+### Animaciones y rigging (PEC3)
 
 Todos los personajes están completamente disponen de animaciones para todas las posibles combinaciones, aunque no las utilicen, precisamente por la posibilidad de que cualquiera de ellos cambie de tipo. Además, se usan capas y animation events para poder controlar de manera fácil desde el código los momentos en los que se produce algún factor de interés en la reproducción de la animación.
 
@@ -109,13 +147,13 @@ También se ha implementado el animation rigging para el jugador, principalmente
 
 ![Rigging](README/pec3-6.png)
 
-### Sistemas de partículas
+### Sistemas de partículas (PEC3)
 
 Se han implementado partículas para un gran número de acciones: al ser golpeado, al morir, al recuperar salud, al convertirse en enemigo, etc.
 
 ![Partículas](README/pec3-7.png)
 
-### Inteligencia artificial
+### Inteligencia artificial (PEC3)
 
 Para implementar los objetivos relacionados con la inteligencia artificial, se utiliza una mezcla de NavMesh y de detección de colisiones. Todos los personajes disponen de tres maneras de detectar colisiones: con el collider incorporado al modelo a través del player controller o del capsule collider, con un trigger en un una esfera con un radio de cuatro metros (esfera interna) y por otra con un radio de siete metros (esfera externa). Además, disponen del componente NavMeshAgent para poder navegar por el terreno de manera autómoma.
 
@@ -131,15 +169,19 @@ Teniendo eso en cuenta, el flujo de un personaje normalmente es:
 
 ![Inteligencia artificial](README/pec3-8.png)
 
-### Iluminación global
+### Iluminación global (PEC3)
 
-Finalmente, se ha hecho uso de la iluminación global y el baking para optimizar el uso de la iluminación en la escena de juego y mejorar el rendimiento general.
+Finalmente, se ha hecho uso de la iluminación global y el baking para optimizar el uso de la iluminación en la escena de juego y mejorar el rendimiento general.
 
 ![Iluminación global](README/pec3-9.png)
 
 ## Problemas conocidos
 
-En el momento de la entrega, se conocen los siguientes problemas:
+En el momento de la entrega de la PF, se conocen los siguientes problemas:
+
+- 
+
+Los siguientes problemas, detectados en la PEC3, han sido resueltos:
 
 - Los sistemas de partículas asociados a los personajes y objetos se están renderizando por detrás de los elementos del terreno.
 - En la misma línea, las olas del agua que rodea la isla se reflejan en los personajes y enemigos repartidos por la escena.
@@ -150,85 +192,85 @@ En el momento de la entrega, se conocen los siguientes problemas:
 
 ### Paquetes completos
 
-- "RPG Character Pack" - Quaternius - https://quaternius.com/packs/rpgcharacters.html
-- "RPG Poly Pack - Lite" - Gigle [Unity Assets Store] - https://assetstore.unity.com/packages/3d/environments/landscapes/rpg-poly-pack-lite-148410
-- "RPG UI elements. Strategy UI elements. Medieval game UI elements. MMO and RTS game UI elements. UI elements GUI kit" - arcaciastudios [itch.io] - https://imp2113sar.itch.io/rpg-game-ui-elements-strategy-game-ui-elements-medieval-game-ui-elements-mmo
+- "RPG Character Pack" - Quaternius - https://quaternius.com/packs/rpgcharacters.html
+- "RPG Poly Pack - Lite" - Gigle [Unity Assets Store] - https://assetstore.unity.com/packages/3d/environments/landscapes/rpg-poly-pack-lite-148410
+- "RPG UI elements. Strategy UI elements. Medieval game UI elements. MMO and RTS game UI elements. UI elements GUI kit" - arcaciastudios [itch.io] - https://imp2113sar.itch.io/rpg-game-ui-elements-strategy-game-ui-elements-medieval-game-ui-elements-mmo
 - "Starter Assets - First Person Character Controller" - URP - https://assetstore.unity.com/packages/essentials/starter-assets-first-person-character-controller-urp-196525
 - "Starter Assets - Third Person Character Controller" - Unity Technologies - https://assetstore.unity.com/packages/essentials/starter-assets-third-person-character-controller-196526
-- "Ultimate Monsters" - Quaternius - https://quaternius.com/packs/ultimatemonsters.html
-- "Ultimate RPG Pack" - Quaternius - https://quaternius.com/packs/ultimaterpg.html
+- "Ultimate Monsters" - Quaternius - https://quaternius.com/packs/ultimatemonsters.html
+- "Ultimate RPG Pack" - Quaternius - https://quaternius.com/packs/ultimaterpg.html
 
 ### Fuentes
 
-- "La jefa" - Lauren Ashpole [DaFont] - https://www.dafont.com/es/la-jefa.font
-- "Wagstaf" - Storytype Studio [DaFont] - https://www.dafont.com/es/wagstaf.font
+- "La jefa" - Lauren Ashpole [DaFont] - https://www.dafont.com/es/la-jefa.font
+- "Wagstaf" - Storytype Studio [DaFont] - https://www.dafont.com/es/wagstaf.font
 
 ### Música
 
-- "Heroism" - Edward J. Blakeley [OpenGameArt] - https://opengameart.org/content/heroism
-- "Meloncholy Town" - VWolfdog [OpenGameArt] https://opengameart.org/content/meloncholy-town
+- "Heroism" - Edward J. Blakeley [OpenGameArt] - https://opengameart.org/content/heroism
+- "Meloncholy Town" - VWolfdog [OpenGameArt] https://opengameart.org/content/meloncholy-town
 
 ### Shaders
 
-- "OToon - URP Toon Shading" - Eric Hu [Unity Asset Store] - https://assetstore.unity.com/packages/vfx/shaders/otoon-urp-toon-shading-216102
-- "URPToonShading" - Léo Chaumartin [GitHub] - https://github.com/lchaumartin/URPToonShading
+- "OToon - URP Toon Shading" - Eric Hu [Unity Asset Store] - https://assetstore.unity.com/packages/vfx/shaders/otoon-urp-toon-shading-216102
+- "URPToonShading" - Léo Chaumartin [GitHub] - https://github.com/lchaumartin/URPToonShading
 
 ### Sonidos
 
-- "Arrow Impact" - Pixabay - https://pixabay.com/es/sound-effects/arrow-impact-87260/
-- "Bow Loading" - Pixabay - https://pixabay.com/es/sound-effects/bow-loading-38752/
-- "Punch" - UNIVERSFIELD - https://pixabay.com/es/sound-effects/punch-140236/
+- "Arrow Impact" - Pixabay - https://pixabay.com/es/sound-effects/arrow-impact-87260/
+- "Bow Loading" - Pixabay - https://pixabay.com/es/sound-effects/bow-loading-38752/
+- "Punch" - UNIVERSFIELD - https://pixabay.com/es/sound-effects/punch-140236/
 
 ## Referencias
 
 ### C# - General
 
-- "Whats the most concise way to pick a random element by weight in c#?" - Eric Yin [StackOverflow] - https://stackoverflow.com/questions/9141594/whats-the-most-concise-way-to-pick-a-random-element-by-weight-in-c
+- "Whats the most concise way to pick a random element by weight in c#?" - Eric Yin [StackOverflow] - https://stackoverflow.com/questions/9141594/whats-the-most-concise-way-to-pick-a-random-element-by-weight-in-c
 
 ### Unity - General
 
-- "Awesome Third Person Shooter Controller! (Unity Tutorial)" - Code Monkey [YouTube] - https://www.youtube.com/watch?v=FbM4CkqtOuA
-- "How to get Mouse Position in 3D and 2D! (Unity Tutorial)" - Code Monkey [YouTube] - https://www.youtube.com/watch?v=0jTPKz3ga4w
-- "Starter Asset Prefab jumps infinitely" - ANNOProfi [Unity Forums] - https://forum.unity.com/threads/starter-asset-prefab-jumps-infinitely.1233067/
+- "Awesome Third Person Shooter Controller! (Unity Tutorial)" - Code Monkey [YouTube] - https://www.youtube.com/watch?v=FbM4CkqtOuA
+- "How to get Mouse Position in 3D and 2D! (Unity Tutorial)" - Code Monkey [YouTube] - https://www.youtube.com/watch?v=0jTPKz3ga4w
+- "Starter Asset Prefab jumps infinitely" - ANNOProfi [Unity Forums] - https://forum.unity.com/threads/starter-asset-prefab-jumps-infinitely.1233067/
 
 ### Animaciones - General
 
-- "Animation events on imported clips" - Unity Documentation - https://docs.unity3d.com/560/Documentation/Manual/AnimationEventsOnImportedClips.html
-- "Animations with Layers in Unity3D - Unity Devs WATCH THIS" - Jason Weimann - https://www.youtube.com/watch?v=Qwy3rEDXqxA
-- "Extract 1 animation from an FBX" - dbonejones [Unity Forums] - https://forum.unity.com/threads/extract-1-animation-from-an-fbx.164509/
-- "How to Add Those Animations to Unity - Beginner Unity Tutorial (FBX)" - Smart Penguins [YouTube] - https://www.youtube.com/watch?v=Q2h2X_mtjrw
+- "Animation events on imported clips" - Unity Documentation - https://docs.unity3d.com/560/Documentation/Manual/AnimationEventsOnImportedClips.html
+- "Animations with Layers in Unity3D - Unity Devs WATCH THIS" - Jason Weimann - https://www.youtube.com/watch?v=Qwy3rEDXqxA
+- "Extract 1 animation from an FBX" - dbonejones [Unity Forums] - https://forum.unity.com/threads/extract-1-animation-from-an-fbx.164509/
+- "How to Add Those Animations to Unity - Beginner Unity Tutorial (FBX)" - Smart Penguins [YouTube] - https://www.youtube.com/watch?v=Q2h2X_mtjrw
 
 ### Animaciones - Interrupción
 
-- "Animator Transition Interrupt Sources, Explained | Unity Tutorial" - LlamAcademy [YouTube] - https://www.youtube.com/watch?v=77dWGDFqcps
-- "Wait, I’ve changed my mind! State Machine Transition interruptions" - Catherine Proulx [Unity Blog] - https://blog.unity.com/technology/wait-ive-changed-my-mind-state-machine-transition-interruptions
+- "Animator Transition Interrupt Sources, Explained | Unity Tutorial" - LlamAcademy [YouTube] - https://www.youtube.com/watch?v=77dWGDFqcps
+- "Wait, I’ve changed my mind! State Machine Transition interruptions" - Catherine Proulx [Unity Blog] - https://blog.unity.com/technology/wait-ive-changed-my-mind-state-machine-transition-interruptions
 
 ### Animaciones - Rigging
 
- -"Generating rig at runtime" - danUnity [Unity Forums] - https://forum.unity.com/threads/generating-rig-at-runtime.935090/
-- "How to use the Animation Rigging System for weapons?" - Hannibal_Leo [Unity Forums] - https://forum.unity.com/threads/how-to-use-the-animation-rigging-system-for-weapons.749132/
-- "MultiAimConstraint - Changing Source Via Script?" - TragicallyCanadian [Unity Forums] - https://forum.unity.com/threads/multiaimconstraint-changing-source-via-script.1128317/
-- "PERFECT Weapon Aiming! (IK, Unity Tutorial Third Person Shooter)" - Code Monkey [YouTube] - https://www.youtube.com/watch?v=luBBz5oeR4Q
-- "Unity 3rd Person - Animation Rigging Package for head look" - Bliz Studio [YouTube] - https://www.youtube.com/watch?v=q7aF8l_xndE
+ -"Generating rig at runtime" - danUnity [Unity Forums] - https://forum.unity.com/threads/generating-rig-at-runtime.935090/
+- "How to use the Animation Rigging System for weapons?" - Hannibal_Leo [Unity Forums] - https://forum.unity.com/threads/how-to-use-the-animation-rigging-system-for-weapons.749132/
+- "MultiAimConstraint - Changing Source Via Script?" - TragicallyCanadian [Unity Forums] - https://forum.unity.com/threads/multiaimconstraint-changing-source-via-script.1128317/
+- "PERFECT Weapon Aiming! (IK, Unity Tutorial Third Person Shooter)" - Code Monkey [YouTube] - https://www.youtube.com/watch?v=luBBz5oeR4Q
+- "Unity 3rd Person - Animation Rigging Package for head look" - Bliz Studio [YouTube] - https://www.youtube.com/watch?v=q7aF8l_xndE
 
 ### Cinemachine
 
-- "Creating a Third Person Camera using Cinemachine in Unity! (Tutorial)" - Unity [YouTube] - https://www.youtube.com/watch?v=537B1kJp9YQ
+- "Creating a Third Person Camera using Cinemachine in Unity! (Tutorial)" - Unity [YouTube] - https://www.youtube.com/watch?v=537B1kJp9YQ
 
 ### Iluminación
 
-- "Baked Global illumination in Unity Tutorial" - MR3D-Dev [YouTube] - https://www.youtube.com/watch?v=iByXt2idyuU
-- "Configuring Lightmaps" - Unity Leard - https://learn.unity.com/tutorial/configuring-lightmaps
-- "How to build Lightmaps in Unity 2020.1 | Tutorial" - Unity [YouTube] - https://www.youtube.com/watch?v=KJ4fl-KBDR8
+- "Baked Global illumination in Unity Tutorial" - MR3D-Dev [YouTube] - https://www.youtube.com/watch?v=iByXt2idyuU
+- "Configuring Lightmaps" - Unity Leard - https://learn.unity.com/tutorial/configuring-lightmaps
+- "How to build Lightmaps in Unity 2020.1 | Tutorial" - Unity [YouTube] - https://www.youtube.com/watch?v=KJ4fl-KBDR8
 
 ### NavMesh
 
-- "Random "Wander" AI using NavMesh" - CnC96 [Unity Forums] - https://forum.unity.com/threads/solved-random-wander-ai-using-navmesh.327950/
-- "How to Program Enemy Running Away Behavior in Unity" - Eric Dustin [GameDevMasterful] - https://gamedevmasterful.com/blog/how-to-program-enemy-running-away-behavior-in-unity/
+- "Random "Wander" AI using NavMesh" - CnC96 [Unity Forums] - https://forum.unity.com/threads/solved-random-wander-ai-using-navmesh.327950/
+- "How to Program Enemy Running Away Behavior in Unity" - Eric Dustin [GameDevMasterful] - https://gamedevmasterful.com/blog/how-to-program-enemy-running-away-behavior-in-unity/
 - "Wandering AI Tutorial" - Aron Granberg - https://arongranberg.com/astar/docs/wander.html
 
 ### Shaders
 
-- "Cel Shader with Outline in Unity" - Linden Reid - https://lindenreidblog.com/2017/12/19/cel-shader-with-outline-in-unity/
-- "Toon Outlines in Unity URP, Shader Graph Using Sobel Edge Detection!  2020.3 | Game Dev Tutorial" - Ned Makes Games [YouTube] - https://www.youtube.com/watch?v=RMt6DcaMxcE
+- "Cel Shader with Outline in Unity" - Linden Reid - https://lindenreidblog.com/2017/12/19/cel-shader-with-outline-in-unity/
+- "Toon Outlines in Unity URP, Shader Graph Using Sobel Edge Detection!  2020.3 | Game Dev Tutorial" - Ned Makes Games [YouTube] - https://www.youtube.com/watch?v=RMt6DcaMxcE
 - "Toon Shading - The EASIEST WAY! Unity3D URP Shadergraph Tutorial" - Léo Chaumartin [YouTube] - https://www.youtube.com/watch?v=Rn_yJ516dVQ
