@@ -10,6 +10,7 @@ El objetivo de la práctica era desarrollar un juego de plataformas en tercera p
 
 Como la práctica final es una extensión de la práctica anterior, a continuación se detallan los cambios y mejoras que se han llevado a cabo para poder determinar de manera fácil las diferencias entre ambas:
 
+- Se ha añadido un submenú de opciones y una pantalla de créditos al menú principal
 - Se ha rehecho completamente la escena de juego
 - Se ha añadido vehículos con movimiento autónomo y la posibilidad de entrar en ellos y manejarlos
 - Se ha añadido un sistema de control del tráfico que limita el movimiento autónomo de los vehículos
@@ -195,7 +196,7 @@ Los siguientes problemas, detectados en la PEC3, han sido resueltos:
 - "RPG Character Pack" - Quaternius - https://quaternius.com/packs/rpgcharacters.html
 - "RPG Poly Pack - Lite" - Gigle [Unity Assets Store] - https://assetstore.unity.com/packages/3d/environments/landscapes/rpg-poly-pack-lite-148410
 - "RPG UI elements. Strategy UI elements. Medieval game UI elements. MMO and RTS game UI elements. UI elements GUI kit" - arcaciastudios [itch.io] - https://imp2113sar.itch.io/rpg-game-ui-elements-strategy-game-ui-elements-medieval-game-ui-elements-mmo
-- "Starter Assets - First Person Character Controller" - URP - https://assetstore.unity.com/packages/essentials/starter-assets-first-person-character-controller-urp-196525
+- "Starter Assets - First Person Character Controller - URP" - Unity Technologies - https://assetstore.unity.com/packages/essentials/starter-assets-first-person-character-controller-urp-196525
 - "Starter Assets - Third Person Character Controller" - Unity Technologies - https://assetstore.unity.com/packages/essentials/starter-assets-third-person-character-controller-196526
 - "Ultimate Monsters" - Quaternius - https://quaternius.com/packs/ultimatemonsters.html
 - "Ultimate RPG Pack" - Quaternius - https://quaternius.com/packs/ultimaterpg.html
