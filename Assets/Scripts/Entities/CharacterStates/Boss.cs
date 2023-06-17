@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using PEC3.Managers;
 
 namespace PEC3.Entities.CharacterStates
 {
@@ -42,6 +43,13 @@ namespace PEC3.Entities.CharacterStates
             // Reset the animator
             _character.animator.Rebind();
             _character.animator.Update(0f);
+            
+            // Set the difficulty
+            _character.maxHealth *= GameManager.Instance.difficulty;
+            _character.health *= GameManager.Instance.difficulty;
+            _character.maxShield *= GameManager.Instance.difficulty;
+            _character.shield *= GameManager.Instance.difficulty;
+            _character.meleeDamage *= GameManager.Instance.difficulty;
         }
         
         /// <summary>

@@ -333,6 +333,11 @@ namespace PEC3.Entities
             if (animator == null)
                 animator = GetComponent<Animator>();
             
+            // Set the character speed
+            moveSpeed *= GameManager.Instance.gameSpeed;
+            sprintSpeed *= GameManager.Instance.gameSpeed;
+            attackRate /= GameManager.Instance.gameSpeed;
+            
             // Invoke the current state Start method
             CurrentState.StartState();
             

@@ -16,13 +16,22 @@ namespace PEC3.Managers
         private bool _isPaused;
         
         /// <value>Property <c>MaxNumberOfEnemies</c> represents the maximum number of enemies in scene.</value>
-        public int maxNumberOfEnemies = 100;
+        public int maxNumberOfEnemies = 25;
         
         /// <value>Property <c>player</c> represents the player.</value>
         public Character player;
 
         /// <value>Property <c>boss</c> represents the boss.</value>
         public Transform boss;
+        
+        /// <value>Property <c>bossSummoned</c> represents if the boss has been summoned.</value>
+        public bool bossSummoned;
+        
+        /// <value>Property <c>difficulty</c> represents the difficulty.</value>
+        public float difficulty;
+        
+        /// <value>Property <c>gameSpeed</c> represents the game speed.</value>
+        public float gameSpeed;
 
         /// <summary>
         /// Method <c>Awake</c> is called when the script instance is being loaded.
@@ -36,6 +45,12 @@ namespace PEC3.Managers
                 return;
             }
             Instance = this;
+            
+            // Load data from player preferences
+            difficulty = PlayerPrefs.GetFloat("Difficulty", 1);
+            difficulty = difficulty < 1 ? 0.5f : difficulty;
+            gameSpeed = PlayerPrefs.GetFloat("GameSpeed", 1);
+            gameSpeed = gameSpeed < 1 ? 0.5f : gameSpeed;
         }
 
         /// <summary>
@@ -53,9 +68,10 @@ namespace PEC3.Managers
         private void FixedUpdate()
         {
             // Check if boss is defined and has been destroyed
-            if (boss == null || boss.gameObject.activeSelf)
+            if (!bossSummoned || boss.gameObject.activeSelf)
                 return;
-            GameOver("The sea of clouds is safe again");
+            if (boss == null)
+                GameOver("The sea of clouds is safe again");
         }
 
         /// <summary>
@@ -70,6 +86,7 @@ namespace PEC3.Managers
                 return;
             UIManager.Instance.UpdateMessageText("The immortal is here!", 2f);
             boss.gameObject.SetActive(true);
+            bossSummoned = true;
         }
         
         /// <summary>
