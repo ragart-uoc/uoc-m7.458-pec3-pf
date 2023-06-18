@@ -218,6 +218,12 @@ namespace PEC3.Entities
         #endregion
             
         #region Animator References
+        
+            /// <value>Property <c>AnimatorSpeed</c> represents the character speed animation.</value>
+            public readonly int AnimatorSpeed = Animator.StringToHash("Speed");
+            
+            /// <value>Property <c>AnimatorAiming</c> represents the character aiming animation.</value>
+            public readonly int AnimatorMotionSpeed = Animator.StringToHash("MotionSpeed");
             
             /// <value>Property <c>AnimatorAttacking</c> represents the character attacking animation.</value>
             public readonly int AnimatorAttacking = Animator.StringToHash("Attacking");
@@ -256,6 +262,9 @@ namespace PEC3.Entities
 
             /// <value>Property <c>rebornParticles</c> represents the reborn particles.</value>
             public ParticleSystem rebornParticles;
+
+            /// <value>Property <c>explodeParticles</c> represents the explode particles.</value>
+            public ParticleSystem explodeParticles;
                 
         #endregion
         
@@ -288,6 +297,9 @@ namespace PEC3.Entities
             
             /// <value>Property <c>rebornSound</c> represents the reborn sound.</value>
             public AudioClip rebornSound;
+            
+            /// <value>Property <c>explodeSound</c> represents the explode sound.</value>
+            public AudioClip explodeSound;
             
         #endregion
         
@@ -593,6 +605,8 @@ namespace PEC3.Entities
             /// </summary>
             public void SetTarget()
             {
+                // Store the current target
+                var currentTarget = target;
                 // Loop the list of targets and remove the null, inactive or dead characters
                 var tempTargetColliderList = new List<Collider>(targetColliderList);
                 foreach (var col in targetColliderList.Where(col => !col || !col.gameObject.activeSelf || col.transform.GetComponent<Character>().dead))
@@ -606,6 +620,18 @@ namespace PEC3.Entities
                 targetColliderList = updatedTargetList;
                 // Set the target
                 target = closestTarget;
+                // If the target is different from the current target, play the detection sound
+                if (target == currentTarget || target == null)
+                    return;
+                switch (CurrentState)
+                {
+                    case Neutral:
+                        HandlePlaySound(screamSound);
+                        break;
+                    default:
+                        HandlePlaySound(detectSound);
+                        break;
+                }
             }
                 
             /// <summary>
@@ -620,9 +646,7 @@ namespace PEC3.Entities
                 // Update the aim rig
                 var sources = new WeightedTransformArray(0);
                 if (closestItem != null)
-                {
                     sources.Add(new WeightedTransform(closestItem, 1));
-                }
                 aimHeadRig.data.sourceObjects = sources;
                 aimUpperBodyRig.data.sourceObjects = sources;
                 animator.enabled = false;
@@ -758,6 +782,17 @@ namespace PEC3.Entities
         public bool HasKey(KeyProperties.Colors keyColor)
         {
             return _keysObtained[keyColor];
+        }
+        
+        /// <summary>
+        /// Method <c>HandlePlaySound</c> tries to play a sound.
+        /// </summary>
+        /// <param name="clip"></param>
+        public void HandlePlaySound(AudioClip clip)
+        {
+            if (clip == null)
+                return;
+            audioSource.PlayOneShot(clip);
         }
         
         /// <summary>

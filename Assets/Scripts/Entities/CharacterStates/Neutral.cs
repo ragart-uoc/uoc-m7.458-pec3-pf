@@ -53,6 +53,10 @@ namespace PEC3.Entities.CharacterStates
             if (_character.dead)
                 return;
             Move();
+            
+            // Pass the velocity to the animator
+            _character.animator.SetFloat(_character.AnimatorSpeed, _character.agent.velocity.magnitude);
+            _character.animator.SetFloat(_character.AnimatorMotionSpeed, _character.agent.velocity.magnitude > 0 ? 1 : 0);
         }
         
         #region Actions
@@ -192,6 +196,8 @@ namespace PEC3.Entities.CharacterStates
                 // Launch the hit1 and hit2 particles
                 _character.hit1Particles.gameObject.SetActive(true);
                 _character.hit2Particles.Play();
+                // Play the hit sound
+                _character.HandlePlaySound(_character.hitSound);
                 // Unset the flags
                 _character.hit = false;
                 // Check if the character is dead
@@ -233,8 +239,10 @@ namespace PEC3.Entities.CharacterStates
                 _character.animator.SetBool(_character.AnimatorDead, true);
                 // Launch the dead particles
                 _character.deathParticles.gameObject.SetActive(true);
+                // Play the dead sound
+                _character.audioSource.PlayOneShot(_character.deathSound);
             }
-            
+
             /// <summary>
             /// Method <c>DeadFinished</c> is called when the dead animation finishes.
             /// </summary>
@@ -244,7 +252,27 @@ namespace PEC3.Entities.CharacterStates
                 _character.ChangeType(CharacterProperties.Types.Enemy);
                 // Launch the rebirth particles
                 _character.rebornParticles.gameObject.SetActive(true);
+                // Play the rebirth sound
+                _character.HandlePlaySound(_character.rebornSound);
                 yield break;
+            }
+            
+            /// <summary>
+            /// Method <c>Explode</c> makes the character explode.
+            /// </summary>
+            public IEnumerator Explode()
+            {
+                // Disable all the character renderers
+                foreach (var renderer in _character.GetComponentsInChildren<Renderer>())
+                    renderer.enabled = false;
+                // Launch the explosion particles
+                _character.explodeParticles.gameObject.SetActive(true);
+                // Play the explosion sound
+                _character.HandlePlaySound(_character.explodeSound);
+                // Wait for the explosion to finish
+                yield return new WaitForSeconds(_character.explodeParticles.main.duration);
+                // Destroy the character
+                Object.Destroy(_character.gameObject);
             }
 
             /// <summary>

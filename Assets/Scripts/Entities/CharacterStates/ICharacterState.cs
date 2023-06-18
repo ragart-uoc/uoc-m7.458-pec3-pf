@@ -87,6 +87,11 @@ namespace PEC3.Entities.CharacterStates
         IEnumerator DeadFinished();
 
         /// <summary>
+        /// Method <c>Explode</c> invokes the state Explode method.
+        /// </summary>
+        IEnumerator Explode();
+
+        /// <summary>
         /// Method <c>DropObject</c> invokes the state DropObject method.
         /// </summary>
         void DropItem();

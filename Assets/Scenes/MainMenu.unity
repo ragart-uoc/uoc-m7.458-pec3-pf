@@ -4703,8 +4703,9 @@ MonoBehaviour:
     game UI elements. MMO and RTS game UI elements. UI elements GUI kit\" - arcaciastudios\r\n\"Starter
     Assets - First Person Character Controller - URP\" - Unity Technologies\r\n\"Starter
     Assets - Third Person Character Controller\" - Unity Technologies\r\n\"Ultimate
-    Monsters\" - Quaternius\r\n\"Ultimate RPG Pack\" - Quaternius\r\n\n<b>Fonts</b>\n\r\n\"La
-    jefa\" - Lauren Ashpole\r\n\"Wagstaf\" - Storytype Studio\r"
+    Monsters\" - Quaternius\r\n\"Ultimate RPG Pack\" - Quaternius\r\n\"Voices - Essentials\"
+    - Nox_Sound\n\n<b>Fonts</b>\n\r\n\"La jefa\" - Lauren Ashpole\r\n\"Wagstaf\"
+    - Storytype Studio\r"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a15eb249aa87dd74095f0fb5ef16a2f4, type: 2}
   m_sharedMaterial: {fileID: 2886571683872734555, guid: a15eb249aa87dd74095f0fb5ef16a2f4,
@@ -8139,7 +8140,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05, y: 0.75}
   m_AnchorMax: {x: 0.95, y: 0.85}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0.000061035156}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &624660974
@@ -10651,8 +10652,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "<b>Music</b>\n\r\n\"Heroism\" - Edward J. Blakeley\r\n\"Meloncholy Town\"
     - VWolfdog\r\n\n<b>Shaders</b>\n\r\n\"OToon - URP Toon Shading\" - Eric Hu\r\n\"URPToonShading\"
-    - L\xE9o Chaumartin\r\n\n<b>Sounds</b>\n\r\n\"Arrow Impact\" - Pixabay\r\n\"Bow
-    Loading\" - Pixabay\r\n\"Puch\" - UNIVERSFIELD"
+    - L\xE9o Chaumartin\r\n\n<b>Sounds</b>\n\r\n\"090035_Splat!\" - Pixabay\n\"Arrow
+    Impact\" - Pixabay\r\n\"Bow Loading\" - Pixabay\r"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a15eb249aa87dd74095f0fb5ef16a2f4, type: 2}
   m_sharedMaterial: {fileID: 2886571683872734555, guid: a15eb249aa87dd74095f0fb5ef16a2f4,

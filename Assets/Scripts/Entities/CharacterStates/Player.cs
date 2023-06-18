@@ -156,6 +156,8 @@ namespace PEC3.Entities.CharacterStates
                 _character.lastAttackTime = Time.time;
                 // Start the attacking animation
                 _character.animator.SetTrigger(_character.AnimatorAttacking);
+                // Play the attack sound
+                _character.HandlePlaySound(_character.attackSound);
                 // Unset the flags
                 _character.attacking = false;
                 yield break;
@@ -205,7 +207,7 @@ namespace PEC3.Entities.CharacterStates
                 // Start the shooting animation
                 _character.animator.SetTrigger(_character.AnimatorShooting);
                 // Play the shooting sound
-                _character.audioSource.PlayOneShot(_character.shootSound);
+                _character.HandlePlaySound(_character.shootSound);
                 // Unset the flags
                 _character.shooting = false;
                 yield break;
@@ -237,6 +239,8 @@ namespace PEC3.Entities.CharacterStates
                 // Launch the hit1 and hit2 particles
                 _character.hit1Particles.gameObject.SetActive(true);
                 _character.hit2Particles.Play();
+                // Play the hit sound
+                _character.HandlePlaySound(_character.hitSound);
                 // Unset the flags
                 _character.hit = false;
                 // Check if the character is dead
@@ -284,6 +288,8 @@ namespace PEC3.Entities.CharacterStates
                 _character.animator.SetBool(_character.AnimatorDead, true);
                 // Launch the dead particles
                 _character.deathParticles.gameObject.SetActive(true);
+                // Play the dead sound
+                _character.HandlePlaySound(_character.deathSound);
             }
             
             /// <summary>
@@ -297,6 +303,15 @@ namespace PEC3.Entities.CharacterStates
                 _character.rebornParticles.gameObject.SetActive(true);
                 yield return new WaitForSeconds(2f);
                 GameManager.Instance.GameOver("You died");
+            }
+            
+            /// <summary>
+            /// Method <c>Explode</c> makes the character explode.
+            /// </summary>
+            public IEnumerator Explode()
+            {
+                // Player doesn't explode
+                yield break;
             }
 
             /// <summary>
