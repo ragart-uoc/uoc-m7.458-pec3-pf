@@ -10,7 +10,8 @@ namespace PEC3.Entities
         {
             Blue,
             Green,
-            Red
+            Red,
+            All
         }
     }
 }

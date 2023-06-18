@@ -35,6 +35,7 @@ namespace PEC3.Entities.DoorBehaviours
         public void OnTriggerEnter(Collider col) {
             if (!col.gameObject.CompareTag("Player"))
                 return;
+            var playerCharacter = col.gameObject.GetComponent<Character>();
             if (!_isAlreadyOpen)
             {
                 var keyColor = _door.keyColor switch
@@ -42,18 +43,30 @@ namespace PEC3.Entities.DoorBehaviours
                     KeyProperties.Colors.Blue => "Blue",
                     KeyProperties.Colors.Green => "Green",
                     KeyProperties.Colors.Red => "Red",
+                    KeyProperties.Colors.All => "All",
                     _ => throw new System.ArgumentException("Invalid key color."),
                 };
+                
+                // Check if all keys are needed
+                if (_door.keyColor == KeyProperties.Colors.All && !playerCharacter.HasAllKeys())
+                {
+                    UIManager.Instance.UpdateMessageText("All keys needed", 2f);
+                    return;
+                }
+                
+                // Check if a certain key is needed
                 if (!col.gameObject.GetComponent<Character>().HasKey(_door.keyColor))
                 {
                     UIManager.Instance.UpdateMessageText(keyColor + " key needed", 2f);
                     return;
                 }
-                else
-                {
+                
+                // Open the door
+                if (_door.keyColor != KeyProperties.Colors.All)
                     UIManager.Instance.UpdateMessageText(keyColor + " key used", 2f);
-                    _isAlreadyOpen = true;
-                }
+                else 
+                    UIManager.Instance.UpdateMessageText("All keys used", 2f);
+                _isAlreadyOpen = true;
             }
             _door.isOpening = true;
             _door.isClosing = false;

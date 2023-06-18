@@ -14,8 +14,11 @@ namespace PEC3.Entities.Editor
             {
                 case Door.DoorTypes.Automatic:
                     break;
+                case Door.DoorTypes.DestroyEnemies:
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("enemiesToDestroy"));
+                    break;
                 case Door.DoorTypes.Locked:
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("keycardColor"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("keyColor"));
                     break;
                 case Door.DoorTypes.Timed:
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("timerButtonPressed"));

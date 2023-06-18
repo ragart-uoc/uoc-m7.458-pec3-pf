@@ -785,6 +785,16 @@ namespace PEC3.Entities
         }
         
         /// <summary>
+        /// Method <c>HasAllKeys</c> checks if the player has all the keys.
+        /// </summary>
+        public bool HasAllKeys()
+        {
+            return _keysObtained[KeyProperties.Colors.Red] &&
+                   _keysObtained[KeyProperties.Colors.Green] &&
+                   _keysObtained[KeyProperties.Colors.Blue];
+        }
+        
+        /// <summary>
         /// Method <c>HandlePlaySound</c> tries to play a sound.
         /// </summary>
         /// <param name="clip"></param>

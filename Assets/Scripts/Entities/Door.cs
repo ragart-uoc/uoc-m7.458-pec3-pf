@@ -115,6 +115,9 @@ namespace PEC3.Entities
             if (isOpening)
             {
                 _distance = leftDoor.position - leftOpenLocation.position;
+                Debug.Log(_distance);
+                _distance.Normalize();
+                Debug.Log(_distance);
 
                 if (_distance.magnitude < 0.001f)
                 {
@@ -136,6 +139,7 @@ namespace PEC3.Entities
             else if (isClosing)
             {
                 _distance = leftDoor.position - leftClosedLocation.position;
+                _distance.Normalize();
 
                 if (_distance.magnitude < 0.001f)
                 {
