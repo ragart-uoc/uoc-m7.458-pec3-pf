@@ -2496,7 +2496,7 @@ MonoBehaviour:
   controller: {fileID: 3123351026426378808}
   animator: {fileID: 4182229732260122329}
   rigBuilder: {fileID: 614510826}
-  agent: {fileID: 0}
+  agent: {fileID: 313882822589250433}
   playerInputs: {fileID: 7741400931212173755}
   maxHealth: 100
   health: 100
@@ -2552,6 +2552,7 @@ MonoBehaviour:
   shootSound: {fileID: 8300000, guid: fbbb669ae7e3a7645962e2923b973038, type: 3}
   hitSound: {fileID: 8300000, guid: 97acb63b5c146af42bc67c8ef67dc9ce, type: 3}
   deathSound: {fileID: 8300000, guid: c9e5af32f6078f5478442418af8d898f, type: 3}
+  screamSound: {fileID: 0}
   detectSound: {fileID: 8300000, guid: 804ff44cdb010ce4c98c6cc15a7126bd, type: 3}
   rebornSound: {fileID: 8300000, guid: ee6e5d833300ac7409dbe64223300d78, type: 3}
   explodeSound: {fileID: 8300000, guid: f38a3bcbff9ff4d4b88959e52c7063db, type: 3}
@@ -2809,7 +2810,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

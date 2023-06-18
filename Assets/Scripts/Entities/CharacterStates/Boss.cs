@@ -75,10 +75,7 @@ namespace PEC3.Entities.CharacterStates
             {
                 // Check if there is a target
                 if (_character.forcedTarget == null && _character.target == null)
-                {
-                    Wander();
                     return;
-                }
                 
                 // Chase the target
                 var realTarget = _character.forcedTarget ? _character.forcedTarget : _character.target;
@@ -90,25 +87,7 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public void Wander()
             {
-                // Set the speed and acceleration
-                _character.agent.speed = _character.moveSpeed;
-                _character.agent.acceleration = _character.moveSpeed * 2f;
-
-                // Update the wander timer
-                _character.wanderTimer += Time.deltaTime;
-                
-                // Check if the wander time was exceeded
-                if (_character.wanderTimer <= _character.wanderTime)
-                    return;
-
-                // Get a random position
-                var randomPosition = _character.RandomNavSphere(_character.transform.position, _character.wanderRadius, -1);
-                    
-                // Set the destination
-                _character.agent.SetDestination(randomPosition);
-                    
-                // Reset the wander timer
-                _character.wanderTimer = 0f;
+                // Bosses don't wander
             }
 
             /// <summary>
@@ -407,6 +386,8 @@ namespace PEC3.Entities.CharacterStates
                 switch (tag)
                 {
                     case "CollisionInner":
+                        break;
+                    case "CollisionOuter":
                         // Check if the collider is a target
                         if (TargetTags.Contains(col.tag)
                             && !_character.targetColliderList.Contains(col))
@@ -415,8 +396,6 @@ namespace PEC3.Entities.CharacterStates
                             _character.targetColliderList.Add(col);
                             _character.SetTarget();
                         }
-                        break;
-                    case "CollisionOuter":
                         break;
                     case "Player":
                         break;
@@ -433,6 +412,8 @@ namespace PEC3.Entities.CharacterStates
                 switch (tag)
                 {
                     case "CollisionInner":
+                        break;
+                    case "CollisionOuter":
                         // Check if the collider is a target
                         if (TargetTags.Contains(col.tag)
                             && !_character.targetColliderList.Contains(col))
@@ -441,8 +422,6 @@ namespace PEC3.Entities.CharacterStates
                             _character.targetColliderList.Add(col);
                             _character.SetTarget();
                         }
-                        break;
-                    case "CollisionOuter":
                         break;
                     case "Player":
                         break;
@@ -459,6 +438,8 @@ namespace PEC3.Entities.CharacterStates
                 switch (tag)
                 {
                     case "CollisionInner":
+                        break;
+                    case "CollisionOuter":
                         // Check if the collider is a target
                         if (TargetTags.Contains(col.tag)
                             && _character.targetColliderList.Contains(col))
@@ -467,8 +448,6 @@ namespace PEC3.Entities.CharacterStates
                             _character.targetColliderList.Remove(col);
                             _character.SetTarget();
                         }
-                        break;
-                    case "CollisionOuter":
                         // If the collider is the forced target, remove it
                         if (col.transform == _character.forcedTarget)
                             _character.forcedTarget = null;
