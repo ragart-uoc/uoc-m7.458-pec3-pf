@@ -24,9 +24,6 @@ namespace PEC3.Managers
         /// <value>Property <c>boss</c> represents the boss.</value>
         public Transform boss;
         
-        /// <value>Property <c>bossSummoned</c> represents if the boss has been summoned.</value>
-        public bool bossSummoned;
-        
         /// <value>Property <c>difficulty</c> represents the difficulty.</value>
         public float difficulty;
         
@@ -67,26 +64,9 @@ namespace PEC3.Managers
         /// </summary>
         private void FixedUpdate()
         {
-            // Check if boss is defined and has been destroyed
-            if (!bossSummoned || boss.gameObject.activeSelf)
-                return;
+            // Check if boss is destroyed
             if (boss == null)
                 GameOver("The sea of clouds is safe again");
-        }
-
-        /// <summary>
-        /// Method <c>SummonBoss</c> summons the boss.
-        /// </summary>
-        /// <param name="redKey">If the red key is collected.</param>
-        /// <param name="blueKey">If the blue key is collected.</param>
-        /// <param name="greenKey">If the green key is collected.</param>
-        public void SummonBoss(bool redKey, bool blueKey, bool greenKey)
-        {
-            if (!redKey || !blueKey || !greenKey)
-                return;
-            UIManager.Instance.UpdateMessageText("The immortal is here!", 2f);
-            boss.gameObject.SetActive(true);
-            bossSummoned = true;
         }
         
         /// <summary>

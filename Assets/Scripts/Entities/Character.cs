@@ -789,11 +789,6 @@ namespace PEC3.Entities
         public void GetKey(KeyProperties.Colors keyColor)
         {
             _keysObtained[keyColor] = true;
-            GameManager.Instance.SummonBoss(
-                _keysObtained[KeyProperties.Colors.Red],
-                _keysObtained[KeyProperties.Colors.Green],
-                _keysObtained[KeyProperties.Colors.Blue]
-            );
             UIManager.Instance.UpdateKeyUI(
                 _keysObtained[KeyProperties.Colors.Red],
                 _keysObtained[KeyProperties.Colors.Green],

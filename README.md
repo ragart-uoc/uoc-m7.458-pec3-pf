@@ -30,7 +30,7 @@ Tampoco se ha aplicado el sistema de control de tráfico por motivos similares, 
 
 ## Vídeo explicativo (PF)
 
-Vídeo pendiente.
+[![Vídeo explicativo](https://img.youtube.com/vi/-GemEuulGd0/hqdefault.jpg)](https://youtu.be/-GemEuulGd0)
 
 ## Vídeo explicativo (PEC3)
 
@@ -57,11 +57,11 @@ El objetivo del juego es conseguir tres llaves mientras se esquiva a hordas de m
 El control se lleva a cabo mediante teclado y ratón, aunque también está preparado para ser compatible con gamepad:
 
 - Las letras <strong>WASD</strong> mueven al personaje.
-- El Espacio hace que el personaje salte.
-- La tecla Mayúsculas izquierda sirve para que el personaje esprinte.
-- El botón izquierdo del ratón dispara el arco.
-- El botón central del ratón realiza un ataque cuerpo a cuerpo.
-- La tecla E sirve para entrar y salir del vehículo.
+- El <strong>Espacio</strong> hace que el personaje salte.
+- La tecla <strong>Mayúsculas izquierda</strong> sirve para que el personaje esprinte.
+- El <strong>botón izquierdo</strong> del ratón dispara el arco.
+- El <strong>botón central</strong> del ratón realiza un ataque cuerpo a cuerpo.
+- La tecla <strong>E</strong> sirve para entrar y salir del vehículo.
 - La tecla Escape sirve para pausar el juego y abrir el menú de pausa.
 
 ## Desarrollo
@@ -206,12 +206,11 @@ Finalmente, se ha hecho uso de la iluminación global y el baking para optimizar
 - "RPG Character Pack" - Quaternius - https://quaternius.com/packs/rpgcharacters.html
 - "RPG Poly Pack - Lite" - Gigle [Unity Assets Store] - https://assetstore.unity.com/packages/3d/environments/landscapes/rpg-poly-pack-lite-148410
 - "RPG UI elements. Strategy UI elements. Medieval game UI elements. MMO and RTS game UI elements. UI elements GUI kit" - arcaciastudios [itch.io] - https://imp2113sar.itch.io/rpg-game-ui-elements-strategy-game-ui-elements-medieval-game-ui-elements-mmo
-- "Skybox
 - "Starter Assets - First Person Character Controller - URP" - Unity Technologies - https://assetstore.unity.com/packages/essentials/starter-assets-first-person-character-controller-urp-196525
 - "Starter Assets - Third Person Character Controller" - Unity Technologies - https://assetstore.unity.com/packages/essentials/starter-assets-third-person-character-controller-196526
 - "Ultimate Monsters" - Quaternius - https://quaternius.com/packs/ultimatemonsters.html
 - "Ultimate RPG Pack" - Quaternius - https://quaternius.com/packs/ultimaterpg.html
-- "Ultimate Spaces Kit" - Quaternius [Unity Assets Store] -
+- "Ultimate Spaces Kit" - Quaternius [Unity Assets Store] - https://quaternius.com/packs/ultimatespacekit.html
 - "Voices - Essentials" - Nox_Sound [Unity Asset Store] - https://assetstore.unity.com/packages/audio/sound-fx/voices/voices-essentials-214441
 
 ### Fuentes
