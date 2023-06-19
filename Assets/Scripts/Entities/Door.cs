@@ -52,18 +52,6 @@ namespace PEC3.Entities
         /// <value>Property <c>rightOpenLocation</c> represents the location of the right door when is open.</value>
         public Transform rightOpenLocation;
 
-        /// <value>Property <c>_leftDoorRenderer</c> represents the renderer of the left door.</value>
-        private Renderer _leftDoorRenderer;
-        
-        /// <value>Property <c>_rightDoorRenderer</c> represents the renderer of the right door.</value>
-        private Renderer _rightDoorRenderer;
-        
-        /// <value>Property <c>_originalLeftDoorColor</c> represents the original color of the left door.</value>
-        private Color _originalLeftDoorColor;
-        
-        /// <value>Property <c>_originalRightDoorColor</c> represents the original color of the right door.</value>
-        private Color _originalRightDoorColor;
-
         /// <value>Property <c>doorSpeed</c> represents how fast the door opens and closes.</value>
         public float doorSpeed = 1.0f;
 
@@ -81,26 +69,13 @@ namespace PEC3.Entities
         /// <value>Property <c>_distance</c> represents the distance between the door and the location.</value>
         private Vector3 _distance;
 
-        /// <value>Property <c>BaseColor</c> is the ID of the base color.</value>
-        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
-
         /// <summary>
         /// Method <c>Start</c> is called when the script instance is being loaded.
         /// </summary>
         private void Start()
         {
-            
-            // Get the door renderer
-            _leftDoorRenderer = leftDoor.GetComponent<Renderer>();
-            _rightDoorRenderer = rightDoor.GetComponent<Renderer>();
-            
-            // Get the original door color
-            _originalLeftDoorColor = _leftDoorRenderer.material.color;
-            _originalRightDoorColor = _rightDoorRenderer.material.color;
-
             // Get the door behaviour
             _doorBehaviour = GetDoorBehaviour(doorType);
-            OnSelectDoorBehaviour();
         }
 
         /// <summary>
@@ -201,32 +176,6 @@ namespace PEC3.Entities
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
             return behaviour;
-        }
-
-        /// <summary>
-        /// Method <c>OnSelectDoorBehaviour</c> is called after a new door behaviour is selected.
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        private void OnSelectDoorBehaviour()
-        {
-            switch (doorType)
-            {
-                case DoorTypes.Locked:
-                    var doorColor = keyColor switch
-                    {
-                        KeyProperties.Colors.Blue => Color.blue,
-                        KeyProperties.Colors.Green => Color.green,
-                        KeyProperties.Colors.Red => Color.red,
-                        _ => throw new ArgumentOutOfRangeException(nameof(keyColor), keyColor, null)
-                    };
-                    _leftDoorRenderer.material.SetColor(BaseColor, doorColor);
-                    _rightDoorRenderer.material.SetColor(BaseColor, doorColor);
-                    break;
-                default:
-                    _leftDoorRenderer.material.SetColor(BaseColor, _originalLeftDoorColor);
-                    _rightDoorRenderer.material.SetColor(BaseColor, _originalRightDoorColor);
-                    break;
-            }
         }
     }
 }

@@ -115,6 +115,12 @@ namespace PEC3.Entities.CharacterStates
         void InputShoot(bool value);
         
         /// <summary>
+        /// Method <c>InputEnterShip</c> invokes the state OnEnterShip method.
+        /// </summary>
+        /// <param name="value">The input value.</param>
+        void InputEnterShip(bool value);
+        
+        /// <summary>
         /// Method <c>HandleCollisionEnter</c> invokes the state OnCollisionEnter method.
         /// </summary>
         /// <param name="col">The collision.</param>

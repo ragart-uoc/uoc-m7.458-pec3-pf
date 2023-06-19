@@ -282,6 +282,7 @@ namespace PEC3.Entities.CharacterStates
                 yield return new WaitForSeconds(5f);
 
                 // Destroy the character
+                _character.animator.StopPlayback();
                 Object.Destroy(_character.gameObject);
             }
             
@@ -342,6 +343,14 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             /// <param name="newShootState">The new shooting state.</param>
             public void InputShoot(bool newShootState)
+            {
+            }
+            
+            /// <summary>
+            /// Method <c>InputEnterShip</c> invokes the state OnEnterShip method.
+            /// </summary>
+            /// <param name="newEnterShipState"></param>
+            public void InputEnterShip(bool newEnterShipState)
             {
             }
         

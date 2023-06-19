@@ -200,6 +200,14 @@ namespace PEC3.Entities
         
         #endregion
         
+        #region Ship
+
+            /// <value>Property <c>ShipInRange</c> represents the ship in range.</value>
+            [Header("Ship")]
+            public Transform shipInRange;
+        
+        #endregion
+        
         #region Animation Rigging
             
             /// <value>Property <c>aimHeadRig</c> represents the aim head rig.</value>
@@ -425,6 +433,15 @@ namespace PEC3.Entities
             private void OnShoot(InputValue value)
             {
                 CurrentState.InputShoot(value.isPressed);
+            }
+            
+            /// <summary>
+            /// Method <c>OnEnterShip</c> is called when the player presses the enter ship button.
+            /// </summary>
+            /// <param name="value">The input value.</param>
+            private void OnEnterShip(InputValue value)
+            {
+                CurrentState.InputEnterShip(value.isPressed);
             }
             
         #endregion

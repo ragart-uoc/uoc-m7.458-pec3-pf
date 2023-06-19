@@ -21,7 +21,6 @@ namespace PEC3.Entities.CharacterStates
         {
             "Enemy"
         };
-
         
         /// <value>Property <c>MouseWorldPosition</c> represents the mouse world position.</value>
         private Vector3 _mouseWorldPosition;
@@ -374,6 +373,18 @@ namespace PEC3.Entities.CharacterStates
                 var projectileAimDirection = (_mouseWorldPosition - projectileSpawnPointPosition).normalized;
                 _character.StartCoroutine(Shoot(projectileSpawnPointPosition, projectileAimDirection));
             }
+            
+            /// <summary>
+            /// Method <c>InputEnterShip</c> invokes the state OnEnterShip method.
+            /// </summary>
+            /// <param name="newEnterShipState"></param>
+            public void InputEnterShip(bool newEnterShipState)
+            {
+                if (!newEnterShipState
+                    || _character.shipInRange == null)
+                    return;
+                _character.shipInRange.GetComponent<Ship>().EnterShip();
+            }
         
         #endregion
 
@@ -418,6 +429,9 @@ namespace PEC3.Entities.CharacterStates
                     _character.itemColliderList.Add(col);
                     _character.LookAtClosestItem();
                 }
+
+                if (col.gameObject.CompareTag("Ship") && tag.Equals("CollisionInner"))
+                    _character.shipInRange = col.transform;
             }
             
             /// <summary>
@@ -427,6 +441,8 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="tag">The tag of the game object containing the collider.</param>
             public void HandleTriggerStay(Collider col, string tag)
             {
+                if (col.gameObject.CompareTag("Ship") && tag.Equals("CollisionInner") && !_character.shipInRange)
+                    _character.shipInRange = col.transform;
             }
             
             /// <summary>
@@ -441,6 +457,9 @@ namespace PEC3.Entities.CharacterStates
                     _character.itemColliderList.Remove(col);
                     _character.LookAtClosestItem();
                 }
+                
+                if (col.gameObject.CompareTag("Ship") && tag.Equals("CollisionInner"))
+                    _character.shipInRange = null;
             }
         
         #endregion

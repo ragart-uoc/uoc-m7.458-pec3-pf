@@ -339,6 +339,14 @@ namespace PEC3.Entities.CharacterStates
             public void InputShoot(bool newShootState)
             {
             }
+            
+            /// <summary>
+            /// Method <c>InputEnterShip</c> invokes the state OnEnterShip method.
+            /// </summary>
+            /// <param name="newEnterShipState"></param>
+            public void InputEnterShip(bool newEnterShipState)
+            {
+            }
         
         #endregion
         
