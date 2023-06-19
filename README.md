@@ -1,4 +1,4 @@
-# Sea of Clouds
+# Sea of Clouds v2.0
 
 ![Sea of Clouds](README/pec3-1.png)
 
@@ -12,15 +12,25 @@ Como la práctica final es una extensión de la práctica anterior, a continuaci
 
 - Se ha añadido un submenú de opciones y una pantalla de créditos al menú principal
 - Se ha rehecho completamente la escena de juego
-- Se ha añadido vehículos con movimiento autónomo y la posibilidad de entrar en ellos y manejarlos
-- Se ha añadido un sistema de control del tráfico que limita el movimiento autónomo de los vehículos
-- Se ha añadido varias armas repartidas por el escenario y la posibilidad de cambiar entre ellas, además de la visualización de la munición en todo momento
-- Se ha añadido un nuevo comportamiento para todos los tipos de personaje que hace que exploten si son arrollados a gran velocidad por un vehículo
+- Se ha añadido un vehículo controlable por el jugador
+- Se ha añadido vehículos con movimiento autónomo
+- Se ha añadido un nuevo comportamiento para todos los tipos de personaje que hace que exploten si son arrollados por un vehículo
 - Se ha corregido los errores detectados en la práctica anterior
+
+La práctica también ha servido para corregir los errores detectados en la práctica anterior:
+
+- Los sistemas de partículas asociados a los personajes y objetos ya no se están renderizando por detrás de los elementos del terreno.
+- Las olas del agua que rodea la isla ya no se reflejan en los personajes y enemigos repartidos por la escena.
+- Todos los personajes están completamente sonorizados.
+- No es posible caer a las zonas de muerte.
+
+Además, al final se ha optado por prescindir de la munición y de los diferentes tipos de armas, debido principalmente a la falta de tiempo, pero también porque el diseño del mundo ludoficcional no lo ha contemplado desde el principio y su inclusión hubiera sido forzada. En cualquier caso, tanto el cambio de arma como la gestión de la munición son conceptos que se han aplicado anteriormente en otras prácticas.
+
+Tampoco se ha aplicado el sistema de control de tráfico por motivos similares, dado que la existencia de semáforos u otras señales de tráfico no acaba de encajar con la atmósfera del juego.
 
 ## Vídeo explicativo (PF)
 
-
+Vídeo pendiente.
 
 ## Vídeo explicativo (PEC3)
 
@@ -49,8 +59,9 @@ El control se lleva a cabo mediante teclado y ratón, aunque también está prep
 - Las letras <strong>WASD</strong> mueven al personaje.
 - El Espacio hace que el personaje salte.
 - La tecla Mayúsculas izquierda sirve para que el personaje esprinte.
-- botón izquierdo del ratón dispara el arco.
+- El botón izquierdo del ratón dispara el arco.
 - El botón central del ratón realiza un ataque cuerpo a cuerpo.
+- La tecla E sirve para entrar y salir del vehículo.
 - La tecla Escape sirve para pausar el juego y abrir el menú de pausa.
 
 ## Desarrollo
@@ -62,18 +73,18 @@ De cara a completar el desarrollo de ambas prácticas, se han llevado a cabo las
 - [x] Se ha creado un escenario que dispone de zonas urbanas y vegetales.
 - [x] El personaje dispone de un arma a distancia que le permite disparar hacia delante.
 - [x] El personaje está completamente animado.
-- [ ] La salud, la armadura y la munición se muestran constantemente en el HUD. La munición, no (ver explicación más adelante).
+- [x] La salud y la armadura se muestran constantemente en el HUD, pero no la munición.
 - [x] Los enemigos pasean por la ciudad y atacan al enemigo cuando está cerca.
 - [x] Los enemigos están completamente animados.
 - [x] Se dispara un sistema de partículas cuando un personaje (jugador o no) recibe daño o muere.
-- [ ] Hay objetos de salud, armadura y munición repartidos por el escenario. Munición, no (ver explicación más adelante).
+- [x] Hay objetos de salud y armadura repartidos por el escenario, pero no de munición.
 - [x] El juego dispone de una pantalla de juego terminado que permite reiniciar la partida.
 - [x] Los enemigos se mueven entre puntos aleatorios y corren hacia el jugador al detectarlo.
 - [x] Hay personajes de carácter neutral paseando por el escenario.
 - [x] Los personajes de carácter neutral huyen de los enemigos.
 - [x] Se ha creado un menú principal que, además de empezar la partida, permite configurar varios parámetros del juego: volumen general, velocidad del juego y dificultad del juego.
-- [ ] Hay vehículos que se mueven por el escenario.
-- [ ] El jugador puede entrar en los vehículos y desplazarse con ellos.
+- [x] Hay vehículos que se mueven por el escenario.
+- [x] El jugador puede entrar en los vehículos y desplazarse con ellos.
 
 ### Tareas opcionales
 
@@ -91,7 +102,7 @@ De cara a completar el desarrollo de ambas prácticas, se han llevado a cabo las
 - [x] Se ha implementado la iluminación global.
 - [x] Los personajes de carácter neutral se convierten en enemigos al morir a manos de un enemigo.
 - [ ] Hay un sistema de control del tráfico que limita el movimiento autónomo de los vehículos.
-- [ ] Los NPC y los enemigos explotan si el jugador los atropella a gran velocidad.
+- [x] Los NPC y los enemigos explotan si el jugador los atropella a gran velocidad.
 
 ## Características principales
 
@@ -106,7 +117,7 @@ La escena del juego se ha rehecho completamente para la práctica final. Ahora, 
 - La isla del norte, Voni, contiene un bosque en el que se encuentra la última de las llaves. Hay varios enemigos fuertes repartidos por ella que conviene evitar.
 - Finalmente, la isla del centro, Vanglasaar, contiene una estructura en la que se encuentra el jefe final del juego. Para llegar a él, es necesario haber recogido previamente las tres llaves.
 
-![Cel shading](README/pec3-2.png)
+![Cel shading](README/pf-2.png)
 
 ### Apuntado, disparo y ataque cuerpo a cuerpo (PEC3)
 
@@ -127,7 +138,7 @@ Se han incluido los tipos siguientes:
 - <strong>Player.</strong> En este estado, se desactivan las automatizaciones y se activan el character controller y el resto de componentes necesarios para poder jugar.
 - <strong>Enemy</strong>. En este estado, el personaje deambula por la escena y ataca al jugador y a los NPC neutrales y aliados cuando pasan cerca.
 - <strong>Boss</strong>. En este estado, el personaje se comporta igual que un enemigo, pero añade la lógica de finalización del juego al derrotarlo.
-<strong>Neutral</strong>. En este estado, el personaje deambula por la escena y huye cuando un enemigo pasa cerca.
+  <strong>Neutral</strong>. En este estado, el personaje deambula por la escena y huye cuando un enemigo pasa cerca.
 - <strong>Ally</strong>. En este estado, el personaje deambula por la escena y ataca a los enemigos que pasan cerca.
 
 En el caso de los enemigos y los NPC (neutrales y aliados) se han añadido varios tipos con modelos y características diferentes (velocidad, daño, resistencia, etc.).
@@ -139,6 +150,17 @@ En el caso de los enemigos y los NPC (neutrales y aliados) se han añadido vario
 Como en la práctica anterior, el juego incluye tanto objetos de curación como llaves repartidas por el escenario o dejadas por los enemigos al morir.
 
 ![Objetos](README/pec3-5.png);
+
+### Vehículos (PF)
+
+La principal novedad añadida en la práctica final es la inclusión de vehículos. En concreto, se han añadido una nave que permite al jugador desplazarse entre las islas flotantes y que tiene dos estados posibles, ya que, como en el caso de los jugadores, se apoya en una máquina de estados para gestionar su comportamiento y permite cambiar de tipo en tiempo de ejecución:
+
+- <strong>Human.</strong> En este estado, el jugador puede controlar la nave y atropellar a los enemigos flotantes.
+- <strong>AI.</strong> En este estado, la nave se desplaza de manera autónoma en rutas predeterminadas.
+
+El jugador sólo puede subir y bajar del vehículo desde el muelle de cada isla.
+
+![Vehículos](README/pf-1.png)
 
 ### Animaciones y rigging (PEC3)
 
@@ -176,51 +198,48 @@ Finalmente, se ha hecho uso de la iluminación global y el baking para optimizar
 
 ![Iluminación global](README/pec3-9.png)
 
-## Problemas conocidos
-
-En el momento de la entrega de la PF, se conocen los siguientes problemas:
-
-- 
-
-Los siguientes problemas, detectados en la PEC3, han sido resueltos:
-
-- Los sistemas de partículas asociados a los personajes y objetos se están renderizando por detrás de los elementos del terreno.
-- En la misma línea, las olas del agua que rodea la isla se reflejan en los personajes y enemigos repartidos por la escena.
-- Faltan sonidos para varios de los tipos de personajes.
-- El agua que rodea la isla no dispone de zona de muerte, por lo que es salir de la escena si se - cae en ella.
-
 ## Créditos
 
 ### Paquetes completos
 
+- "Monsters SFX Vol.2" - Atelier Magicae [itch.io] - https://ateliermagicae.itch.io/monsters-sfx-vol2
 - "RPG Character Pack" - Quaternius - https://quaternius.com/packs/rpgcharacters.html
 - "RPG Poly Pack - Lite" - Gigle [Unity Assets Store] - https://assetstore.unity.com/packages/3d/environments/landscapes/rpg-poly-pack-lite-148410
 - "RPG UI elements. Strategy UI elements. Medieval game UI elements. MMO and RTS game UI elements. UI elements GUI kit" - arcaciastudios [itch.io] - https://imp2113sar.itch.io/rpg-game-ui-elements-strategy-game-ui-elements-medieval-game-ui-elements-mmo
+- "Skybox
 - "Starter Assets - First Person Character Controller - URP" - Unity Technologies - https://assetstore.unity.com/packages/essentials/starter-assets-first-person-character-controller-urp-196525
 - "Starter Assets - Third Person Character Controller" - Unity Technologies - https://assetstore.unity.com/packages/essentials/starter-assets-third-person-character-controller-196526
 - "Ultimate Monsters" - Quaternius - https://quaternius.com/packs/ultimatemonsters.html
 - "Ultimate RPG Pack" - Quaternius - https://quaternius.com/packs/ultimaterpg.html
+- "Ultimate Spaces Kit" - Quaternius [Unity Assets Store] -
+- "Voices - Essentials" - Nox_Sound [Unity Asset Store] - https://assetstore.unity.com/packages/audio/sound-fx/voices/voices-essentials-214441
 
 ### Fuentes
 
 - "La jefa" - Lauren Ashpole [DaFont] - https://www.dafont.com/es/la-jefa.font
 - "Wagstaf" - Storytype Studio [DaFont] - https://www.dafont.com/es/wagstaf.font
 
-### Música
-
-- "Heroism" - Edward J. Blakeley [OpenGameArt] - https://opengameart.org/content/heroism
-- "Meloncholy Town" - VWolfdog [OpenGameArt] https://opengameart.org/content/meloncholy-town
-
 ### Shaders
 
 - "OToon - URP Toon Shading" - Eric Hu [Unity Asset Store] - https://assetstore.unity.com/packages/vfx/shaders/otoon-urp-toon-shading-216102
 - "URPToonShading" - Léo Chaumartin [GitHub] - https://github.com/lchaumartin/URPToonShading
 
+### Música
+
+- "Heroism" - Edward J. Blakeley [OpenGameArt] - https://opengameart.org/content/heroism
+- "Meloncholy Town" - VWolfdog [OpenGameArt] https://opengameart.org/content/meloncholy-town
+
 ### Sonidos
 
+- "090035_Splat!" - Pixabay - https://pixabay.com/es/sound-effects/090035-splatwav-91604/
 - "Arrow Impact" - Pixabay - https://pixabay.com/es/sound-effects/arrow-impact-87260/
 - "Bow Loading" - Pixabay - https://pixabay.com/es/sound-effects/bow-loading-38752/
-- "Punch" - UNIVERSFIELD - https://pixabay.com/es/sound-effects/punch-140236/
+- "Demonic Whisper" - Pixabay - https://pixabay.com/es/sound-effects/demonic-whisper-100425/
+- "Male Scream in Fear" - UNIVERSFIELD [Pixabay] - https://pixabay.com/es/sound-effects/male-scream-in-fear-123079/
+
+### Otros assets
+
+- "Dock Wide" - Quaternius [Poly.Pizza] - https://poly.pizza/m/XndOrGa7rN
 
 ## Referencias
 
@@ -248,7 +267,7 @@ Los siguientes problemas, detectados en la PEC3, han sido resueltos:
 
 ### Animaciones - Rigging
 
- -"Generating rig at runtime" - danUnity [Unity Forums] - https://forum.unity.com/threads/generating-rig-at-runtime.935090/
+-"Generating rig at runtime" - danUnity [Unity Forums] - https://forum.unity.com/threads/generating-rig-at-runtime.935090/
 - "How to use the Animation Rigging System for weapons?" - Hannibal_Leo [Unity Forums] - https://forum.unity.com/threads/how-to-use-the-animation-rigging-system-for-weapons.749132/
 - "MultiAimConstraint - Changing Source Via Script?" - TragicallyCanadian [Unity Forums] - https://forum.unity.com/threads/multiaimconstraint-changing-source-via-script.1128317/
 - "PERFECT Weapon Aiming! (IK, Unity Tutorial Third Person Shooter)" - Code Monkey [YouTube] - https://www.youtube.com/watch?v=luBBz5oeR4Q
