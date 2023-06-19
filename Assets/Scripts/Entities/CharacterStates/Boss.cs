@@ -7,7 +7,7 @@ using PEC3.Managers;
 namespace PEC3.Entities.CharacterStates
 {
     /// <summary>
-    /// Class <c>Ally</c> is the class for the Ally character state.
+    /// Class <c>Boss</c> is the class for the boss character state.
     /// </summary>
     public class Boss : ICharacterState
     {
@@ -23,7 +23,7 @@ namespace PEC3.Entities.CharacterStates
         };
 
         /// <summary>
-        /// Class constructor <c>Enemy</c> initializes the class.
+        /// Class constructor <c>Boss</c> initializes the class.
         /// </summary>
         /// <param name="character">The character.</param>
         public Boss(Character character)

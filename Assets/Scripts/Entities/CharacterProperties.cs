@@ -12,7 +12,8 @@ namespace PEC3.Entities
             Boss,
             Enemy,
             Neutral,
-            Player
+            Player,
+            Still
         }
     }
 }

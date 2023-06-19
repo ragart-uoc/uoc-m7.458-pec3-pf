@@ -11,7 +11,7 @@ namespace PEC3.Controllers
     public class EnemySpawnController : MonoBehaviour
     {
         /// <value>Property <c>EnemySpawnList</c> represents the list of enemies to spawn.</value>
-        public List<EnemySpawnStruct> EnemySpawnList;
+        public List<EnemySpawnStruct> enemySpawnList;
         
         /// <value>Property <c>EnemySpawnTime</c> represents the time between enemy spawns.</value>
         public float lastSpawnTime;
@@ -24,6 +24,9 @@ namespace PEC3.Controllers
         
         /// <value>Property <c>_totalWeight</c> represents the total weight of the enemies.</value>
         private int _totalWeight;
+        
+        /// <value>Property <c>_spawnedEnemyNumber</c> represents the number of spawned enemies.</value>
+        private int _spawnedEnemyNumber;
 
         /// <summary>
         /// Method <c>Start</c> is called on the frame when a script is enabled just before any of the Update methods are called the first time.
@@ -31,7 +34,7 @@ namespace PEC3.Controllers
         private void Start()
         {
             // Calculate the total weight of the enemies
-            _totalWeight = EnemySpawnList.Sum(enemySpawn => enemySpawn.EnemyWeight);
+            _totalWeight = enemySpawnList.Sum(enemySpawn => enemySpawn.EnemyWeight);
             
             // Spawn the very first enemy
             lastSpawnTime = Time.time;
@@ -43,8 +46,10 @@ namespace PEC3.Controllers
         /// </summary>
         private void Update()
         {
-            if (!(Time.time - lastSpawnTime > timeBetweenSpawns)
-                    && GetSpawnedEnemyNumber() < GameManager.Instance.maxNumberOfEnemies)
+            _spawnedEnemyNumber = GetSpawnedEnemyNumber();
+            
+            if (Time.time - lastSpawnTime < timeBetweenSpawns
+                    || _spawnedEnemyNumber > GameManager.Instance.maxNumberOfEnemies)
                 return;
             lastSpawnTime = Time.time;
             SpawnEnemy();
@@ -66,7 +71,7 @@ namespace PEC3.Controllers
             {
                 var randomWeight = Random.Range(0, _totalWeight);
                 var currentWeight = 0;
-                foreach (var enemySpawn in EnemySpawnList)
+                foreach (var enemySpawn in enemySpawnList)
                 {
                     currentWeight += enemySpawn.EnemyWeight;
                     if (currentWeight <= randomWeight)

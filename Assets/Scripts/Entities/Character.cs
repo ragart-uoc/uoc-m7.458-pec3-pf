@@ -339,6 +339,7 @@ namespace PEC3.Entities
             _characterStates.Add(CharacterProperties.Types.Enemy, new Enemy(this));
             _characterStates.Add(CharacterProperties.Types.Neutral, new Neutral(this));
             _characterStates.Add(CharacterProperties.Types.Player, new Player(this));
+            _characterStates.Add(CharacterProperties.Types.Still, new Still(this));
             
             // Set the current state
             CurrentState = _characterStates[characterType];
@@ -402,6 +403,14 @@ namespace PEC3.Entities
             public void RestoreShield(float multiplier)
             {
                 StartCoroutine(CurrentState.RestoreShield(multiplier));
+            }
+            
+            /// <summary>
+            /// Method <c>Explode</c> is called when the player explodes.
+            /// </summary>
+            public void Explode()
+            {
+                StartCoroutine(CurrentState.Explode());
             }
         
         #endregion

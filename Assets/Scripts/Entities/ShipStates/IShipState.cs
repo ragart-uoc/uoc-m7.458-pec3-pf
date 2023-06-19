@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PEC3.Entities.ShipStates
@@ -7,6 +8,9 @@ namespace PEC3.Entities.ShipStates
     /// </summary>
     public interface IShipState
     {
+        /// <value>Property <c>TargetTags</c> represents the tags of the targets.</value>
+        List<string> TargetTags { get; set; }
+        
         /// <summary>
         /// Method <c>StartState</c> invokes the state Start method.
         /// </summary>

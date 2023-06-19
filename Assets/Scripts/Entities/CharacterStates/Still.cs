@@ -1,29 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace PEC3.Entities.CharacterStates
 {
     /// <summary>
-    /// Class <c>Neutral</c> is the class for the neutral character state.
+    /// Class <c>Ally</c> is the class for the Ally character state.
     /// </summary>
-    public class Neutral : ICharacterState
+    public class Still : ICharacterState
     {
         /// <value>Property <c>Character</c> represents the character.</value>
         private readonly Character _character;
         
         /// <value>Property <c>TargetTags</c> represents the tags of the targets.</value>
-        public List<string> TargetTags { get; set; } = new()
-        {
-            "Enemy"
-        };
+        public List<string> TargetTags { get; set; }
 
         /// <summary>
-        /// Class constructor <c>Neutral</c> initializes the class.
+        /// Class constructor <c>Still</c> initializes the class.
         /// </summary>
         /// <param name="character">The character.</param>
-        public Neutral(Character character)
+        public Still(Character character)
         {
             _character = character;
         }
@@ -33,16 +29,6 @@ namespace PEC3.Entities.CharacterStates
         /// </summary>
         public void StartState()
         {
-            // Get the nav mesh agent
-            if (_character.agent == null)
-                _character.agent = _character.GetComponent<NavMeshAgent>();
-
-            // Reset the animator
-            _character.animator.Rebind();
-            _character.animator.Update(0f);
-            
-            // Set the flee timer
-            _character.fleeTimer = _character.fleeTime;
         }
         
         /// <summary>
@@ -50,13 +36,6 @@ namespace PEC3.Entities.CharacterStates
         /// </summary>
         public void UpdateState()
         {
-            if (_character.dead)
-                return;
-            Move();
-            
-            // Pass the velocity to the animator
-            _character.animator.SetFloat(_character.AnimatorSpeed, _character.agent.velocity.magnitude);
-            _character.animator.SetFloat(_character.AnimatorMotionSpeed, _character.agent.velocity.magnitude > 0 ? 1 : 0);
         }
         
         #region Actions
@@ -66,23 +45,7 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public void Move()
             {
-                // Check if there is a target
-                if (_character.forcedTarget == null && _character.target == null)
-                {
-                    Wander();
-                    return;
-                }
-                
-                // Update the flee timer
-                _character.fleeTimer += Time.deltaTime;
-                
-                // Check if the wander time was exceeded
-                if (_character.fleeTimer <= _character.fleeTime)
-                    return;
-                
-                // Flee from the target
-                var realTarget = _character.forcedTarget ? _character.forcedTarget : _character.target;
-                Flee(realTarget);
+                // Still characters don't move
             }
 
             /// <summary>
@@ -90,25 +53,7 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public void Wander()
             {
-                // Set the speed and acceleration
-                _character.agent.speed = _character.moveSpeed;
-                _character.agent.acceleration = _character.moveSpeed * 2f;
-                
-                // Update the wander timer
-                _character.wanderTimer += Time.deltaTime;
-                
-                // Check if the wander time was exceeded
-                if (_character.wanderTimer <= _character.wanderTime)
-                    return;
-
-                // Get a random position
-                var randomPosition = _character.RandomNavSphere(_character.transform.position, _character.wanderRadius, -1);
-                    
-                // Set the destination
-                _character.agent.SetDestination(randomPosition);
-                    
-                // Reset the wander timer
-                _character.wanderTimer = 0f;
+                // Still characters don't wander
             }
 
             /// <summary>
@@ -116,24 +61,7 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public void Flee(Transform target)
             {
-                // Set the speed and acceleration
-                _character.agent.speed = _character.sprintSpeed;
-                _character.agent.acceleration = _character.sprintSpeed * 2f;
-                
-                // Get the character position and rotation
-                var characterTransform = _character.transform;
-                var characterPosition = characterTransform.position;
-                
-                // Get the target position
-                var targetPosition = target.position;
-                
-                // Run away from the target
-                var direction = characterPosition - targetPosition;
-                direction = Quaternion.Euler(0, Random.Range(-180, 180), 0) * direction;
-                _character.agent.destination = characterPosition + direction;
-                
-                // Reset the flee timer
-                _character.fleeTimer = 0f;
+                // Still characters don't flee
             }
 
             /// <summary>
@@ -141,7 +69,7 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public void Chase(Transform target)
             {
-                // Neutrals don't chase
+                // Still characters don't chase
             }
             
             /// <summary>
@@ -149,7 +77,7 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public IEnumerator Attack()
             {
-                // Neutrals don't attack
+                // Still characters don't attack
                 yield break;
             }
             
@@ -158,7 +86,7 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public void AttackFinished()
             {
-                // Neutrals don't attack
+                // Still characters don't attack
             }
 
             /// <summary>
@@ -168,7 +96,7 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="projectileAimDirection">The projectile aim direction.</param>
             public IEnumerator Shoot(Vector3 projectileSpawnPointPosition, Vector3 projectileAimDirection)
             {
-                // Neutrals don't shoot
+                // Still characters don't shoot
                 yield break;
             }
         
@@ -178,33 +106,8 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="damage">The damage received.</param>
             public IEnumerator TakeDamage(float damage)
             {
-                // Check if the character is already being hit or is dead
-                if (_character.hit || _character.dead)
-                    yield break;
-                // Set the flags
-                _character.hit = true;
-                // Take damage
-                _character.health -= damage * 0.1f;
-                _character.shield -= damage * 0.9f;
-                if (_character.shield < 0.0f)
-                {
-                    _character.health += _character.shield;
-                    _character.shield = 0.0f;
-                }
-                // Start the hit animation
-                _character.animator.SetTrigger(_character.AnimatorHit);
-                // Launch the hit1 and hit2 particles
-                _character.hit1Particles.gameObject.SetActive(true);
-                _character.hit2Particles.Play();
-                // Play the hit sound
-                _character.HandlePlaySound(_character.hitSound);
-                // Unset the flags
-                _character.hit = false;
-                // Check if the character is dead
-                if (_character.health <= 0)
-                {
-                    _character.StartCoroutine(Die());
-                }
+                // Still characters don't take damage
+                yield break;
             }
             
             /// <summary>
@@ -230,17 +133,8 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public IEnumerator Die()
             {
-                // Check if the character is already dead
-                if (_character.dead)
-                    yield break;
-                // Set the dead flag
-                _character.dead = true;
-                // Start the dead animation
-                _character.animator.SetBool(_character.AnimatorDead, true);
-                // Launch the dead particles
-                _character.deathParticles.gameObject.SetActive(true);
-                // Play the dead sound
-                _character.audioSource.PlayOneShot(_character.deathSound);
+                // Still characters don't die
+                yield break;
             }
 
             /// <summary>
@@ -248,12 +142,7 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public IEnumerator DeadFinished()
             {
-                // Change the character type
-                _character.ChangeType(CharacterProperties.Types.Enemy);
-                // Launch the rebirth particles
-                _character.rebornParticles.gameObject.SetActive(true);
-                // Play the rebirth sound
-                _character.HandlePlaySound(_character.rebornSound);
+                // Still characters don't die
                 yield break;
             }
             
@@ -280,7 +169,7 @@ namespace PEC3.Entities.CharacterStates
             /// </summary>
             public void DropItem()
             {
-                // Neutrals don't drop items (at least for now)
+                // Still characters don't drop items (at least for now)
             }
         
         #endregion
@@ -357,23 +246,6 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="tag">The tag of the game object containing the collider.</param>
             public void HandleTriggerEnter(Collider col, string tag)
             {
-                switch (tag)
-                {
-                    case "CollisionInner":
-                        // Check if the collider is a target
-                        if (TargetTags.Contains(col.tag)
-                            && !_character.targetColliderList.Contains(col))
-                        {
-                            // Add the collider to the target list
-                            _character.targetColliderList.Add(col);
-                            _character.SetTarget();
-                        }
-                        break;
-                    case "CollisionOuter":
-                        break;
-                    case "Player":
-                        break;
-                }
             }
             
             /// <summary>
@@ -383,23 +255,6 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="tag">The tag of the game object containing the collider.</param>
             public void HandleTriggerStay(Collider col, string tag)
             {
-                switch (tag)
-                {
-                    case "CollisionInner":
-                        // Check if the collider is a target
-                        if (TargetTags.Contains(col.tag)
-                            && !_character.targetColliderList.Contains(col))
-                        {
-                            // Add the collider to the target list
-                            _character.targetColliderList.Add(col);
-                            _character.SetTarget();
-                        }
-                        break;
-                    case "CollisionOuter":
-                        break;
-                    case "Player":
-                        break;
-                }
             }
             
             /// <summary>
@@ -409,26 +264,6 @@ namespace PEC3.Entities.CharacterStates
             /// <param name="tag">The tag of the game object containing the collider.</param>
             public void HandleTriggerExit(Collider col, string tag)
             {
-                switch (tag)
-                {
-                    case "CollisionInner":
-                        // Check if the collider is a target
-                        if (TargetTags.Contains(col.tag)
-                            && _character.targetColliderList.Contains(col))
-                        {
-                            // Remove the collider from the target list
-                            _character.targetColliderList.Remove(col);
-                            _character.SetTarget();
-                        }
-                        break;
-                    case "CollisionOuter":
-                        // If the collider is the forced target, remove it
-                        if (col.transform == _character.forcedTarget)
-                            _character.forcedTarget = null;
-                        break;
-                    case "Player":
-                        break;
-                }
             }
         
         #endregion

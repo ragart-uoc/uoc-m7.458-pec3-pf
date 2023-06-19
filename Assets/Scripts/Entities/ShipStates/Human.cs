@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PEC3.Entities.ShipStates
@@ -9,6 +10,15 @@ namespace PEC3.Entities.ShipStates
     {
         /// <value>Property <c>ship</c> represents the ship.</value>
         private Ship _ship;
+        
+        /// <value>Property <c>TargetTags</c> represents the tags of the targets.</value>
+        public List<string> TargetTags { get; set; } = new()
+        {
+            "Ally",
+            "Enemy",
+            "Neutral",
+            "Still"
+        };
         
         /// <summary>
         /// Method <c>Human</c> initializes the class.
@@ -87,6 +97,17 @@ namespace PEC3.Entities.ShipStates
         /// <param name="tag">The tag of the game object containing the collider.</param>
         public void HandleCollisionEnter(Collision col, string tag)
         {
+            switch (tag)
+            {
+                case "CollisionInner":
+                    break;
+                case "CollisionOuter":
+                    break;
+                case "Ship":
+                    if (TargetTags.Contains(col.transform.tag))
+                        col.gameObject.GetComponent<Character>().Explode();
+                    break;
+            }
         }
 
         /// <summary>
@@ -114,8 +135,17 @@ namespace PEC3.Entities.ShipStates
         /// <param name="tag">The tag of the game object containing the collider.</param>
         public void HandleTriggerEnter(Collider col, string tag)
         {
-            if (col.gameObject.CompareTag("Port") && tag.Equals("CollisionInner"))
-                _ship.dockInRange = col.transform;
+            switch (tag)
+            {
+                case "CollisionInner":
+                    if (col.gameObject.CompareTag("Port"))
+                        _ship.dockInRange = col.transform;
+                    break;
+                case "CollisionOuter":
+                    break;
+                case "Ship":
+                    break;
+            }
         }
             
         /// <summary>
@@ -125,8 +155,17 @@ namespace PEC3.Entities.ShipStates
         /// <param name="tag">The tag of the game object containing the collider.</param>
         public void HandleTriggerStay(Collider col, string tag)
         {
-            if (col.gameObject.CompareTag("Port") && tag.Equals("CollisionInner") && _ship.dockInRange == null)
-                _ship.dockInRange = col.transform;
+            switch (tag)
+            {
+                case "CollisionInner":
+                    if (col.gameObject.CompareTag("Port") && _ship.dockInRange == null)
+                        _ship.dockInRange = col.transform;
+                    break;
+                case "CollisionOuter":
+                    break;
+                case "Ship":
+                    break;
+            }
         }
             
         /// <summary>
@@ -136,8 +175,17 @@ namespace PEC3.Entities.ShipStates
         /// <param name="tag">The tag of the game object containing the collider.</param>
         public void HandleTriggerExit(Collider col, string tag)
         {
-            if (col.gameObject.CompareTag("Port") && tag.Equals("CollisionInner"))
-                _ship.dockInRange = null;
+            switch (tag)
+            {
+                case "CollisionInner":
+                    if (col.gameObject.CompareTag("Port"))
+                        _ship.dockInRange = null;
+                    break;
+                case "CollisionOuter":
+                    break;
+                case "Ship":
+                    break;
+            }
         }
     }
 }

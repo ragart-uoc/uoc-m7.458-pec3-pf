@@ -211,7 +211,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fecaabc5ead68544fbe9dc0602df8b64, type: 2}
+  - {fileID: 2100000, guid: 87be05952fcb1444fa2072ce1d40da33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 6613759043277160882}
   - component: {fileID: 917943844949659543}
   m_Layer: 0
-  m_Name: Ship
+  m_Name: AIShip
   m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -287,8 +287,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 1476418517763797627}
-  speed: 100
-  turnSpeed: 120
+  speed: 10
+  turnSpeed: 10
   moveInput: {x: 0, y: 0}
   turnInput: {x: 0, y: 0}
 --- !u!114 &1943487375785799951
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82ea21b788cc1bc4cae87ad7f1789692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipType: 0
+  shipType: 1
   controller: {fileID: 4215955834743451675}
   playerInput: {fileID: 1943487375785799951}
   shipFollowCamera: {fileID: 0}
